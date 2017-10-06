@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from psychology import views
 from egenie.decorators import agree_required
 from django.contrib.auth.decorators import login_required
