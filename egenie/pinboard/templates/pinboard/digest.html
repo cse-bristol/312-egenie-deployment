@@ -1,0 +1,70 @@
+{% extends "egenie/front_screen.html" %}
+
+{% load spirit_tags i18n static %}
+
+{% block styles %}
+	<link rel="stylesheet" href="{% static 'vendor/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pinboard/css/pinboard.css' %}">
+    <link rel="stylesheet" href="{% static 'pinboard/css/digest.css' %}">
+{% endblock %}
+
+{% block extra %}
+{{ block.super }}
+<script type="text/javascript">
+$('.grid').isotope({
+  // options
+  itemSelector: '.comment-panel',
+  // layoutMode: 'fitRows'
+});
+
+</script>
+{% endblock %}
+
+
+{% block title %}Pinboard Digest{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/isotope.pkgd.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row digest">
+	<div class="col-sm-4">
+	<div class="list-panel panel panel-default"><div class="panel-body comment"><div class="heading text-center">Recent Posts</div></div></div>
+	<div class="grid">
+		{% for c in recent %}
+		{% include "pinboard/_comment.html" with c=c %}
+		{% endfor %}
+	</div>
+    <div class="text-center"><a href="{% url 'pinboard:public' %}" class="btn btn-lg btn-primary">View All Posts</a></div>
+	</div>
+	<div class="col-sm-4">
+	<div class="list-panel panel panel-default"><div class="panel-body comment"><div class="heading text-center">Popular Posts</div></div></div>
+	<div class="grid">
+		{% for c in popular %}
+		{% include "pinboard/_comment.html" with c=c %}
+		{% endfor %}
+	</div>
+	</div>
+
+	<div class="col-sm-4">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Investigate your workplace!</div>
+			<div class="panel-body">Would you like to investigate your workplace? We have thermal cameras and thermometers that you can use!</div>
+		</div>
+		{% if onsite %}
+        <div class="text-center"><a href="{% url 'pinboard:public' %}" class="btn btn-lg btn-primary">Have Your Say!</a></div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block aboutscreen %}
+  <div class="modal-header">
+    <h4 class="modal-title">Pinboard Digest</h4>
+  </div>
+  <div class="modal-body">
+  GENIE's Pinboard lets you and your colleagues discuss energy issues in the workplace: the digest shows you what's been talked about recently, and what are the current hot topics. If you would like to make your own post, press the Have Your Say button and join the conversation!
+    <hr />
+  </div>
+{% endblock %}

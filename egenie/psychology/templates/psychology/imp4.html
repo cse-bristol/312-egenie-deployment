@@ -1,0 +1,40 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}">
+{% endblock %}
+{% block title %}Make A Pledge To Change{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class=" panel panel-default">
+			<div class="panel-body">
+				{% if mode == 'electricity' %}
+				<h1 class="goal">If I see something that can be turned off, then I will turn it off.</h1>
+				{% elif mode == 'heating' %}
+				<h1 class="goal">If I feel the temperature in the building is uncomfortable, then I will make sure my local systems are working and report any faults or adjustments needed.</h1>
+				{% endif %}
+				<p class="text">Please now press “Print” to print this action as a further reminder and help yourself to a chocolate bar if you’d like one.</p>
+				<div class="row">
+				<div class="col-sm-6 text-center vcenter">
+				<img src="{% static 'psychology/imgs/pipsta.png' %}" width="400" />
+				</div><div class="col-sm-6 text-center vcenter">
+				<img src="{% static 'psychology/imgs/chocolate.png' %}" width="300" />
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'psychology:print_pledge' %}?mode={{mode}}&printer={{plinth.printer}}" class="btn btn-primary btn-lg next-button">Print Pledge</a></div>
+	</div>
+</footer>
+{% endblock %}

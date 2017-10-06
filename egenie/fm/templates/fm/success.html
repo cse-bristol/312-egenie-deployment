@@ -1,0 +1,42 @@
+{% extends "egenie/inner_screen.html" %}
+
+{% load i18n static %}
+
+{% load thumbnail %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'fm/css/fm.css' %}">
+{% endblock %}
+
+{% block extra %}
+{{ block.super }}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">
+	    <div class="panel panel-default">
+	        <div class="panel-body">
+	        If you would like to contact the Operations Manager with a concern, fill in the form below and it will be sent to them directly.
+	    	</div>
+	    </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">
+	    <!-- <div class="panel panel-default"> -->
+	        <!-- <div class="panel-body"> -->
+	        <div class="alert-success alert">
+		        <div class="row">
+			        <div class="col-sm-6">Done! Your message has been sent.</div>
+			        <div class="col-sm-6 text-right"><a href="{% url 'root' %}" class="btn btn-primary">Back</a></div>
+		        </div>
+	        </div>
+	        <!-- </div> -->
+	    <!-- </div> -->
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}">
+<link rel="stylesheet" href="{% static 'psychology/css/wizard.css' %}">
+{% endblock %}
+{% block title %}Make A Pledge To Change{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p class="text wizard-text">A large part of greenhouse gas emissions are released from non domestic buildings. Performed regularly, several behaviours can help reduce a lot of energy. For example:</p>
+
+				<ul class="wizard-examples">
+				<li class="row">
+					<div class="col-sm-8 behaviour">Turn off everything in my area when I leave the office.</div>
+					<div class="col-sm-4 text-right"><img src="{% static 'psychology/imgs/imac.png' %}" /></div>
+				</li>
+				<li class="row">
+					<div class="col-sm-8 behaviour">Turn off devices when I see that they are not being used.</div>
+					<div class="col-sm-4 text-right"><img src="{% static 'psychology/imgs/printer.png' %}" /></div>
+				</li>
+				<li class="row">
+					<div class="col-sm-8 behaviour">Put on another layer when it's cold in the office, rather than ask for the temperature to be increased.</div>
+					<div class="col-sm-4 text-right"><img src="{% static 'psychology/imgs/clothes.png' %}" /></div>
+				</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'psychology:implementation' step=1 %}?mode={{ mode }}" class="btn btn-primary btn-lg">Next</a></div>
+	</div>
+</footer>
+{% endblock %}
