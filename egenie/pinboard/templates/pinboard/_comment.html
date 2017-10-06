@@ -1,0 +1,41 @@
+{% load thumbnail %}
+{% load humanize %}
+<div class="comment-panel">
+	<div class="panel panel-default ">
+	<div class="panel-body comment">
+		{% if c.comment_photo.all.count > 0 %}
+		{% with c.comment_photo.all|first as first_photo %}
+		<div class="row comment-image">
+				{% thumbnail first_photo.photo.image "300x300" crop="center" as im %}
+				<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  />
+				{% endthumbnail %}
+		</div>
+		{% endwith %}
+		{% endif %}
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="comment-body">
+					<blockquote>
+					{% if c.comment|length > 100 %}
+					<p><a href="{% url 'spirit:topic:detail' pk=c.topic.id %}">{{ c.comment|slice:":150" }}... (read more)</a></p>
+					{% else %}
+					<p><a href="{% url 'spirit:topic:detail' pk=c.topic.id %}">{{ c.comment }}</a></p>
+					{% endif %}
+					<footer><i class="fa fa-user"></i></footer>
+					</blockquote>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8">{{ c.topic.last_active|naturaltime }}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8">{% if c.topic.comment_count > 1 %}<a href="{% url 'spirit:topic:detail' pk=c.topic.id %}"><i class="fa fa-commenting-o"></i>&nbsp;{{ c.topic.comment_count|add:"-1" }}</a>{% endif %}</div>
+		</div>
+
+	</div>
+	</div>
+</div> 

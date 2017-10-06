@@ -1,0 +1,58 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}">
+{% endblock %}
+{% block title %}Make A Pledge To Change{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+	<div class=" panel panel-default">
+	<div class="panel-body">
+		<p class="text text-center">Now please create your own plans by tapping on the examples of cues and behaviours below</p>
+		<div class="row vertical-align">
+			<div class="col-sm-6 text-center"><h1 class="goal">If...</h1></div>
+			<div class="col-sm-6 text-center"><h1 class="goal">Then...</h1></div>
+		</div>
+		<div class="row vertical-align">
+			<div class="col-sm-6 text-center"><p class='text' onclick="$('p.text').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_if').text('the temperature is low'); $('#custom_then').text('...');">the temperature is low</p></div>
+			<div class="col-sm-6 text-center"><p class='text pre_then' onclick="$('.pre_then').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_then').text('turn them off');">turn them off</p></div>
+		</div>
+		<div class="row vertical-align">
+			<div class="col-sm-6 text-center"><p class='text' onclick="$('p.text').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_if').text('the temperature is uncomfortable'); $('#custom_then').text('...');">the temperature is uncomfortable</p></div>
+			<div class="col-sm-6 text-center"><p class='text pre_then' onclick="$('.pre_then').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_then').text('turn off everything in my area');">turn off everything in my area</p></div>
+		</div>
+		<div class="row vertical-align">
+			<div class="col-sm-6 text-center"><p class='text' onclick="$('p.text').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_if').text('I leave the office at the end of the day'); $('#custom_then').text('...');">I leave the office at the end of the day</p></div>
+			<div class="col-sm-6 text-center"><p class='text pre_then' onclick="$('.pre_then').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_then').text('put on an extra layer');">put on an extra layer</p></div>
+		</div>
+		<div class="row vertical-align">
+			<div class="col-sm-6 text-center"><p class='text' onclick="$('p.text').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_if').text('it is between 4pm and 7pm'); $('#custom_then').text('...');">it is between 4pm and 7pm</p></div>
+			<div class="col-sm-6 text-center"><p class='text pre_then' onclick="$('.pre_then').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_then').text('reduce my electricity use');">reduce my electricity use</p></div>
+		</div>
+		<div class="row vertical-align">
+			<div class="col-sm-6 text-center"><p class='text' onclick="$('p.text').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_if').text('I see things left on'); $('#custom_then').text('...');">I see things left on</p></div>
+			<div class="col-sm-6 text-center"><p class='text pre_then' onclick="$('.pre_then').css('background-color', 'white'); $(this).css('background-color', 'rgba(0, 0, 255, 0.2)'); $('#custom_then').text('discuss moving desks with my colleagues');">discuss moving desks with my colleagues</p></div>
+		</div>
+		<div class='row vertical-align'>
+			<div class='col-sm-12 text text-center'>
+				<p><strong>If <span id="custom_if">...</span> then I will <span id="custom_then">...</span></strong></p>
+				<p>Please try and remember your plan.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'root' %}" class="btn btn-primary btn-lg">Well done!</a></div>
+	</div>
+</footer>
+{% endblock %}

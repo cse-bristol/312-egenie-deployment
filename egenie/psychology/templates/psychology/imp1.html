@@ -1,0 +1,34 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}">
+{% endblock %}
+{% block title %}Make A Pledge To Change{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+	<div class=" panel panel-default">
+	<div class="panel-body">
+	{% if mode == 'electricity' %}
+		<p class="text">A simple method to help you reduce your own energy use is to plan how you will change your behaviour. This technique is found to help people remember to do something. For example, consider your actions if you see something that could be turned off. You could plan:</p>
+		<h1 class="goal">"If I see something that can be turned off, then I will turn it off"</h1>
+	{% elif mode == 'heating' %}
+		<p class="text">A simple method to help you reduce your own energy use is to plan how you will change your behaviour. This technique is found to help people remember to do something. For example, consider your actions if you feel the temperature in the building is uncomfortable.  You could plan:</p>
+		<h1 class="goal">"If I feel the temperature in the building is low, then I will put on another layer."</h1>
+	{% endif %}
+	</div>
+	</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'psychology:implementation' step=2 %}?mode={{ mode }}" class="btn btn-primary btn-lg">Next</a></div>
+	</div>
+</footer>
+{% endblock %}

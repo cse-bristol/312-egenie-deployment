@@ -1,0 +1,40 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}">
+{% endblock %}
+{% block title %}Make A Pledge To Change{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class=" panel panel-default">
+			<div class="panel-body">
+				{% if mode == 'electricity' %}
+				<h1 class="goal">If I see something that can be turned off, then I will turn it off.</h1>
+				{% elif mode == 'heating' %}
+				<h1 class="goal">If I feel the temperature in the building is uncomfortable, then I will make sure my local systems are working and report any faults or adjustments needed.</h1>
+				{% endif %}
+			</div>
+		</div>
+
+	
+	    <div class="alert-success alert">
+	        <div class="row">
+		        <div class="col-sm-6">Done! Your pledge will be printed shortly.</div>
+			    <div class="col-sm-6 text-right"><a href="{% url 'root' %}" class="btn btn-primary">Back</a></div>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'choice' %}" class="btn btn-primary btn-lg next-button">Take Another Action</a></div>
+	</div>
+</footer>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "egenie/inner_screen.html" %}
+
+{% load spirit_tags i18n static %}
+
+{% load thumbnail %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'pinboard/css/pinboard.css' %}">
+{% endblock %}
+
+{% block extra %}
+{{ block.super }}
+<script type="text/javascript">
+$('.grid').isotope({
+  // options
+  itemSelector: '.comment-panel',
+  // layoutMode: 'fitRows'
+});
+$('.carousel').carousel();
+$('.carousel').on('slid.bs.carousel', function(event) {
+	var url = "{% url 'pinboard:topic_publish' %}?photo=XXX&category={{ category }}";
+	var new_url = url.replace("XXX", $(event.relatedTarget).data('photo'));
+	$(".btn-post").attr('href', new_url);
+});
+
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/isotope.pkgd.js' %}"></script>
+{% endblock %}
+
+{% block title %}Start A Conversation{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-9">
+		<div class="grid pinboard"> 
+			<div class="comment-panel">
+				<div class="panel panel-info">
+					<div class="panel-body">
+					<p>This is the e-Genie message board. Please use it to discuss with your colleagues about an energy concern you think needs attention, or a suggestion you have for improving things.</p>
+					<div class="text-center"><a href="{% url 'pinboard:topic_publish' %}?category={{ category }}" class="btn btn-primary">Make A Post</a></div>
+					</div>
+				</div>
+			</div>
+
+			{% for c in comments %}
+			{% include "pinboard/_comment.html" with c=c %}
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Investigate your workplace!</div>
+			<div class="panel-body">Would you like to investigate your workplace? We have thermal cameras and thermometers that you can use! Please contact Murray Goulden via murray.goulden@nottingham.ac.uk</div>
+		</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading">Add Photos</div>
+			<div class="panel-body">
+				<p>You can add photos to your post by sending them to:</p>
+				<p>photos@e-genie.co.uk</p>
+				{% if photos.count > 0 %}
+				<div class="row pinboard-photo-thumb">
+					<div class="carousel slide" data-ride="carousel" id="photo-carousel" >
+<!-- 						<ol class="carousel-indicators">
+							{% for photo in photos %}
+							<li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter == 1 %}active{% endif %}"></li>
+							{% endfor %}
+						</ol> -->
+						<div class="carousel-inner" role="listbox">
+							{% for photo in photos %}
+							<div class="item{% if forloop.counter == 1 %} active{% endif %}" data-photo="{{photo.id}}">
+								<div class="row">
+									<div class="col-md-12 text-center">
+										{% thumbnail photo.image "150x150" crop="center" as im %}
+										<a href="{% url 'pinboard:topic_publish' %}?photo={{ photo.id }}&category={{ category }}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail" /></a>
+										{% endthumbnail %}
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev" onclick="$('#photo-carousel').carousel('prev')">
+					    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					    <span class="sr-only">Previous</span>
+					  </a>
+					  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next" onclick="$('#photo-carousel').carousel('next')">
+					    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					    <span class="sr-only">Next</span>
+					  </a>
+					</div>
+					<div class="row pinboard-photo-actions text-center">
+						<div class="col-md-12">
+							{% with photos|first as photo %}
+							<a href="{% url 'pinboard:topic_publish' %}?photo={{photo.id}}&category={{ category }}" class="btn btn-default btn-primary btn-post">Post</a>
+							{% if request.user.is_superuser %}
+							<a href="{% url 'pinboard:delete_photo' id=photo.id %}" class="btn btn-default">Delete</a>
+							{% endif %}
+							{% endwith %}
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

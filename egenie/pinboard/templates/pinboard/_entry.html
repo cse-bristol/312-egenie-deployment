@@ -1,0 +1,23 @@
+<div class="col-sm-6">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div><input type='text' name='author' class='col-sm-12 comment-entry-name' placeholder='Your name (optional)...' /></div>
+            <textarea class="col-sm-12 comment-entry" cols="40" name="comment" rows="10" placeholder='Your post...' autofocus></textarea>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="btn-group">
+                    <input class="btn btn-primary reply-button pull-left" type="submit" name="add-post" value="Post" />
+                    </div>
+                    {% if mode == 'public' %}
+                    <a class="btn btn-default pull-right" href="{% url 'pinboard:public' %}">Cancel</a>
+                    {% elif mode == 'private' %}
+                    <a class="btn btn-default pull-right" href="{% url 'pinboard:private' %}">Cancel</a>
+                    {% endif %}
+                    <input type="hidden" name="category" value="{{ category }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

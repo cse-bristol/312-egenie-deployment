@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+    <!-- Latest compiled and minified JavaScript -->
+	<script type="text/javascript" src="{% static 'vendor/js/jquery.min.js'%}"></script>
+  <script src="{% static 'vendor/js/bootstrap.js' %}"></script>
+	{% block scripts %}
+	{% endblock %}
+	<!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.css' %}">
+     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/css/paper.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'egenie/css/base.css' %}?x=1">
+  <link rel="stylesheet" href="{% static 'egenie/css/floorplan.css' %}?x=1">
+
+  <link rel="stylesheet" href="{% static 'vendor/css/leaflet.css' %}" />
+  <script src="{% static 'vendor/js/leaflet.js' %}"></script>
+  
+  <link rel="stylesheet" href="{% static 'vendor/css/leaflet.awesome-markers.css' %}">
+  <script src="{% static 'vendor/js/leaflet.awesome-markers.min.js' %}"></script>
+
+	{% block styles %}
+	{% endblock %}
+
+  <title>CTech GENIE</title>
+</head>
+<body>
+
+  {% block nav %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="row">
+      <div class='col-sm-1'><a href='javascript:window.history.back();' class='btn btn-primary btn-lg' style='margin-top:10px;'>Back</a></div>
+      <div class="col-sm-1 arrow"></div>
+      <div class="col-sm-1 text-left logo-bar"><a class="" href="{% url 'root' %}"><img class="logo" src="{% static 'egenie/imgs/lamp_logo.png' %}" /></a></div>
+      <div class="col-sm-6 text-center navbar-brand">{% block title %}{% endblock %}</div>
+      <div class="col-sm-1 arrow"></div>
+      </div>
+    </div>
+</nav>
+  {% endblock %}
+  <div class="container main-container">
+    {% block content %}
+    {% endblock %}
+  </div>
+  {% block extra %}
+  {% endblock %}
+
+  {% block footercont %}
+
+  {% endblock %}
+</body>
+</html>

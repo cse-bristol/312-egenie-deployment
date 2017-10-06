@@ -1,0 +1,48 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}?cache=false">
+{% endblock %}
+{% block title %}Make A Pledge To Change{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p class="text">Research also finds that reading specific actions helps you remember to do them. Please read the action from the speech bubble below:</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-3 text-center">
+		<img src="http://{{plinth.pi_ip}}/"  class="video text-center"/>
+		<p>Don't worry, we aren't recording!</p>
+	</div>
+	<div class="col-sm-7">
+		<div class="bubble">
+			{% if mode == 'electricity' %}
+			If I see something that can be turned off, then I will turn it off
+			{% elif mode == 'heating' %}
+			If I feel the temperature in the building is uncomfortable, then I will make sure my local systems are working and report any faults or adjustments needed.
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'psychology:implementation' step=4 %}?mode={{ mode }}" class="btn btn-primary btn-lg next-button">Next</a></div>
+	</div>
+</footer>
+{% endblock %}
+
+{% block extra %}
+{{ block.super }}
+{% endblock %}

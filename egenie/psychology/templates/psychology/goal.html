@@ -1,0 +1,33 @@
+{% extends "egenie/inner_screen.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'psychology/css/imp.css' %}">
+{% endblock %}
+
+{% block title %}Make A Pledge To Change{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+	<div class=" panel panel-default">
+	<div class="panel-body">
+		<div class="text-center">
+		<img src="{% static 'psychology/imgs/cityscape.png' %}" />
+		</div>
+		<p class="text">Around 33% of greenhouse gas emissions in the UK are released from shared buildings within the business sector. So reducing energy use in the workplace has enormous potential in reducing climate change. Also, it helps your company save costs!</p>
+		<p class="text">How about trying to reduce your energy use at work?</p>
+		</div>
+	</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<div class="text-center"><a href="{% url 'psychology:wizard' %}?mode={{ mode }}" class="btn btn-primary btn-lg">Next</a></div>
+	</div>
+</footer>
+{% endblock %}

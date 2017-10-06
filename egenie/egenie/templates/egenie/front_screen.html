@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block styles %}{% endblock %}
+
+{% block scripts %}{% endblock %}
+
+{% block nav %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="navbar-brand logo-bar">
+          <a class="" href="{% url 'root' %}"><img class="logo" src="{% static 'egenie/imgs/lamp_logo.png' %}" /></a>
+        </div>
+        <ul class='nav navbar-nav'>
+          <li><a href='/temperature'>Temperature</a></li>
+          <!-- <li><a href='/alwayson'>Always On</a></li> -->
+          <li><a href='/graphs'>Graphs</a></li>
+          <li><a href='/pinboard'>Pinboard</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+{% block content %}{% endblock %}
+
+{% block extra %}
+
+<div class="modal fade" id="aboutGenie" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">About e-Genie</h4>
+      </div>
+      <div class="modal-body">
+        e-GENIE is a system developed by the CTech project. It shows how energy is used around the building, provides a place to discuss energy use and waste with your colleagues, and lets you make a pledge to reduce your own energy use.
+        <hr />
+        <div class="row valign">
+          <div class="col-xs-3"><img src="{% static 'egenie/imgs/ctech.png' %}" width="100" /></div>
+          <div class="col-xs-3"><img src="{% static 'egenie/imgs/notts.png' %}" width="100" /></div>
+          <div class="col-xs-3"><img src="{% static 'egenie/imgs/soton.png' %}" width="100" /></div>
+          <div class="col-xs-3"><img src="{% static 'egenie/imgs/cse.png' %}" width="100" /></div>
+        </div>
+        <hr />
+      </div>
+      <div class="modal-footer">
+        <div class="row"><div class="col-xs-12 text-center">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="aboutScreen" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      {% block aboutscreen %}
+      {% endblock aboutscreen %}
+      <div class="modal-footer">
+        <div class="row"><div class="col-xs-12 text-center">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var current = '{{ screen }}';
+var next_screen = '{% url next_screen %}';
+var prev_screen = '{% url prev_screen %}';
+</script>
+<script src="{% static 'egenie/js/autorotate.js' %}"></script>
+{% endblock %}
+
+
+
+{% block footercont %}
+{% if plinth %}
+<footer class="footer navbar-fixed-bottom">
+      <div class="container">
+{% block footer %}
+        <div class="col-sm-4">
+            <div class="text-left"><button data-toggle="modal" data-target="#aboutGenie" class="btn btn-primary btn-lg">About e-Genie</button></div>
+           </div>
+        <div class="col-sm-4">
+        {% comment %}{% if onsite %}{% endcomment %}
+        <div class="text-center">
+          <a href="{% url 'choice' %}?mode={{mode}}" class="btn btn-primary btn-lg">Think about changing your behaviour</a>
+        </div>
+        {% comment %}{% endif %}{% endcomment %}
+        </div>
+        <div class="col-sm-4">
+            <div class="text-right"><button data-toggle="modal" data-target="#aboutScreen" class="btn btn-primary btn-lg">About This Screen</button></div>
+        </div>
+{% endblock %}
+      </div>
+</footer>
+{% endif %}
+{% endblock footercont %}

@@ -1,0 +1,107 @@
+.alert {
+  color: #000;
+}
+
+.large-text {
+	font-size: 9em;
+}
+
+.text {
+	font-size: 1.5em;
+	padding: 0.5em;
+	line-height: 1.2em;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.video {
+	/*border: solid 1px black;*/
+	width: 120px;
+  height: 120px;
+  background-size: contain;
+	margin-bottom: 0px;
+  background-image: url('/static/psychology/imgs/avatar.png');
+  /*margin: 1em;*/
+  border-radius: 1em;
+}
+
+.goal {
+	font-size: 1.8em;
+  font-style: italic;
+  border: 1px solid black;
+  padding: 0.5em;
+  border-radius: 1em;
+  margin-left: 3em;
+  margin-right: 3em;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.imp-pic {
+	padding: 0px;
+	margin: 0px;
+}
+
+.smalltext {
+  color: white;
+  font-size: 1em;
+}
+
+
+.bubble 
+{
+  position: relative;
+  width: 100%;
+  height: 240px;
+  padding: 0.5em;
+  background: #FFFFFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: #7F7F7F solid 2px;
+  font-size: 1.8em;
+  font-style: italic;
+}
+
+.bubble:after 
+{
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 15px 15px 15px 0;
+  border-color: transparent #FFFFFF;
+  display: block;
+  width: 0;
+  z-index: 1;
+  left: -15px;
+  top: 45px;
+}
+
+.bubble:before 
+{
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 16px 16px 16px 0;
+  border-color: transparent #7F7F7F;
+  display: block;
+  width: 0;
+  z-index: 0;
+  left: -18px;
+  top: 44px;
+}
+
+.next-cont {
+  padding-top: 40px;
+}
+
+.pledge {
+	width: 100%;
+}
