@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-fmzn-rix(8cxiwu$z)4igdk(npv_4(v0=$%+p8#a2&4(=)vyl'
+from .secure import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,10 +41,19 @@ INSTALLED_APPS.extend([
     # 'django.contrib.sessions',
     # 'django.contrib.messages',
     # 'django.contrib.staticfiles',
+    'hubs',
+    'sensors',
+    'deployments',
+    'sd_store',
+    'basicutils',
     'sorl.thumbnail',
     'egenie',
     'fm',
     'psychology',
+    'alwayson',
+    'temperature',
+    'graphs',
+    'annotations',
 ])
 INSTALLED_APPS.insert(0, 'pinboard')
 
@@ -56,6 +65,7 @@ MIDDLEWARE_CLASSES.extend([
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'egenie.middleware.CTechMiddleware'
 ])
 
 ROOT_URLCONF = 'egenie.urls'
@@ -82,18 +92,18 @@ WSGI_APPLICATION = 'egenie.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 
@@ -128,3 +138,8 @@ STATICFILES_FINDERS = (
 
 PUBLIC_CATEGORY = 'user-posts'
 PRIVATE_CATEGORY = 'fm-messages'
+
+
+AUTH_USER_MODEL = 'auth.User'
+
+AUTHENTICATION_BACKENDS = ('egenie.backends.SimpleBackend',)

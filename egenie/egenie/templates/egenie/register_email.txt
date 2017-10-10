@@ -1,0 +1,43 @@
+Thank you for requesting a username for GENIE! As part of our C-TECH research project, we are trialling this software around the Digital Catapult. Your username is: {{username}}
+
+We are carrying out some research activities at the same time to understand how GENIE is being used we would like to invite you to take part in. All participation in the research is voluntary. If you do take part, you can chose to withdraw from the project at any time, and any recorded data associated with you will be deleted.
+
+To evaluate GENIE, we (researchers from the University of Nottingham, Southampton University and the Centre for Sustainable Energy) are looking for staff and visitor volunteers for supporting study examining people’s attitudes and behaviours about energy use at work. 
+
+The study involves completing a short (5-10 minute) online survey (https://horizon.qualtrics.com/SE/?SID=SV_6tWvSPGUdnEdBhX) and using the GENIE tool. We will also ask you to complete a further short (5-10 minute) online survey in a couple of weeks time. 
+If you take part, you will receive £10 in Amazon vouchers as a thank you for your time. You will also gain insight into some of the active research going on in the project. 
+
+Below is some information on further research activities, and how we will manage any data on you that we do collect.
+
+The Data Collection
+
+In order to evaluate the trial, we will be collecting data through four different means:
+GENIE usage: what users click on when interacting with GENIE will be recorded by the system. The information displays presented by GENIE can be used anonymously, however the other elements of the system require users to log in. Once you are logged in, the route you take through GENIE will be visible to the research team in order to inform subsequent design work on GENIE. We may come back to you to ask if you would be willing to answer some questions about your use of the system. As with everything else, this is voluntary.
+
+Observation and interview: a C-TECH researcher will be spending some time in your office, in order to understand the organisation’s day-to-day workings, and gather feedback on GENIE as well as the wider energy-reduction programme. As well as observing interactions with GENIE, and asking questions about the experience of those using it where appropriate, we will also invite some of you to take part in interviews about energy use in the office. Before such interviews take place participants will be asked to sign a consent form allowing us to make an audio recording of it.
+
+Video recording: at certain points, video of users interacting with GENIE will be taken, if the user agrees to it. When the camera is recording, signs will notify those in the vicinity. Using GENIE at this time will be taken as consent for you to be filmed. Footage will be solely for internal use by the research team, unless we obtain signed permission from those present to use it publicly.
+
+Survey: As above, we'd appreciate your participation in a short online survey if you have not done so already - https://horizon.qualtrics.com/SE/?SID=SV_6tWvSPGUdnEdBhX
+
+What do I Need to Know?
+
+You are free to decline to participate at any point without giving a reason. All participation in the study is voluntary. Any personally-identifiable information you share with the research team – including decisions not to participate – will be strictly confidential and not shared with your employer or anyone else outside the research team, except with your explicit permission.
+
+How is Confidentiality Maintained?
+
+Real names will not be used in publications and reports. Research materials (‘raw data’) are confined to members of the research team, and any public presentation will use only data extracts that have been anonymized or, if this is not possible, with additional consent of those involved in that fragment. The researchers are independent and have no relation to your employer’s internal processes of accountability.
+
+What Happens to the Data Collected?
+
+All data will stored in accordance with the University of Nottingham’s Code of Research Conduct, namely on a password protected drive in a secure facility and only for the duration for which it is required. Any information you give us will be held securely and treated in strictest confidence.
+
+Who will Conduct the Research
+
+The observational research will be carried out by Dr Murray Goulden (murray.goulden@nottingham.ac.uk) and the survey research will be carried out by Dr Caroline Leygue (caroline.leygue@nottingham.ac.uk). The Principal Investigator of the project is Dr Alexa Spence (alexa.spence@nottingham.ac.uk).
+
+Contact for Further Information
+
+Dr Murray Goulden (observational research), Research Fellow: murray.goulden@nottingham.ac.uk
+Dr Caroline Leygue (survey evaluation), Research Fellow: caroline.leygue@nottingham.ac.uk
+Dr Alexa Spence (general enquiries), Lecturer: alexa.spence@nottingham.ac.uk

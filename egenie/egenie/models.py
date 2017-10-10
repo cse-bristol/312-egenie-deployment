@@ -2,8 +2,8 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
-# from deployments.models import Deployment
-# from sd_store.models import Sensor
+from deployments.models import Deployment
+from sd_store.models import Sensor
 
 
 class Participant(models.Model):
@@ -25,19 +25,21 @@ class Plinth(models.Model):
     location = models.CharField(max_length=32)
     printer = models.CharField(max_length=5)
     pi_ip = models.GenericIPAddressField()
-    # deployment = models.ForeignKey(Deployment, blank=True, null=True)
+    deployment = models.ForeignKey(Deployment, blank=True, null=True)
     x = models.IntegerField()
     y = models.IntegerField()
 
     def __unicode__(self):
         return self.location
 
-# class SensorPosition(models.Model):
-# 	sensor = models.OneToOneField(Sensor, related_name='position')
-# 	x = models.IntegerField()
-# 	y = models.IntegerField()
-# 	def __unicode__(self):
-# 		return self.sensor.name+" ("+str(self.x)+","+str(self.y)+")"
+
+class SensorPosition(models.Model):
+    sensor = models.OneToOneField(Sensor, related_name='position')
+    x = models.IntegerField()
+    y = models.IntegerField()
+
+    def __unicode__(self):
+        return self.sensor.name + " (" + str(self.x) + "," + str(self.y) + ")"
 
 post_save.connect(create_participant, sender=User,
                   dispatch_uid="users-participantcreation-signal")

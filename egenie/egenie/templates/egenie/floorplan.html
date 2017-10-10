@@ -1,0 +1,98 @@
+
+        <!-- Floor plan widget here -->
+        <div id='floorplan'>
+        </div>
+
+        <script type="text/javascript">
+        var w = 4230,
+            h = 3635;
+
+        var pixelToLatLng = function(x, y) {
+            return map.unproject([x,y],map.getMaxZoom());
+        };
+
+        var show_markers = {{markers}};
+        var show_plinth = {{at_plinth|lower}};
+
+
+        var map = L.map('floorplan', {
+          minZoom: 14,
+          maxZoom: 18,
+          zoom: 15,
+          crs: L.CRS.Simple,
+          zoomControl: true,
+        });
+        map.zoomControl.setPosition('topright');
+
+        var southWest = map.unproject([0, h], map.getMaxZoom());
+        var northEast = map.unproject([w, 0], map.getMaxZoom());
+        map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+        var tiles = L.tileLayer('/static/egenie/imgs/{{tiles_folder}}/{z}/map_{x}_{y}.png', {
+            attribution: '',
+        });
+        map.addLayer(tiles);
+        map.setView(pixelToLatLng(0,0),15);
+
+
+        var plinthMarker = L.icon({
+            iconUrl: '/static/egenie/imgs/plinth_marker.png',
+            iconSize: [32,28],
+        });
+
+        var redMarker = L.AwesomeMarkers.icon({
+            icon:'tachometer',
+            markerColor:'red',
+            prefix:'fa',
+        });
+
+        var greenMarker = L.AwesomeMarkers.icon({
+            icon:'tachometer',
+            markerColor:'green',
+            prefix:'fa',
+        });
+
+        if(show_markers) {
+            var temperature_sensors = [
+            {% for sensor in all_sensors %}
+            { 'id':{{sensor.id}}, 'x':{{sensor.position.x}}, 'y':{{sensor.position.y}} },
+            {% endfor %}
+            ];
+
+
+            var marker_by_id = {};
+            var all_markers = [];
+            var is_selected = false;
+            $.each(temperature_sensors, function(index, sensor) {
+                var marker = L.marker(pixelToLatLng(sensor.x, sensor.y), {icon: redMarker}).addTo(map);
+                all_markers.push(marker);
+                marker_by_id[sensor.id] = marker;
+                marker.on('click', function() {
+                    resetTimer();
+                    marker.setIcon(greenMarker);
+                    // marker.setIcon(greenMarker);
+                    $.each(all_markers, function(i, other_marker) {
+                        if(marker !== other_marker) {
+                            other_marker.setIcon(redMarker);
+                        }
+                    });
+                    is_selected = true;
+                    $("#floorplan").trigger('marker_clicked', {'marker':marker, 'data':sensor});
+                });
+            });
+        }
+
+        if(show_plinth) {
+            var plinth_x = {{plinth.x}};
+            var plinth_y = {{plinth.y}};
+            var marker = L.marker(pixelToLatLng(plinth_x, plinth_y), {icon: plinthMarker}).addTo(map);
+        }
+
+        map.on('click', function() { resetTimer(); });
+
+
+        // $.each(plinths, function(index, plinth) {
+        //     var marker = L.marker(pixelToLatLng(plinth.x, plinth.y), {icon: plinthMarker}).addTo(map);
+        // });
+        // map.setView(all_markers[0].getLatLng(), 15);
+        </script>
+        <!-- End widget -->

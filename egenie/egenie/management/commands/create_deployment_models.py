@@ -19,7 +19,7 @@ from django.contrib.auth.models import User
 from sd_store.models import SensorChannelPair, Sensor, Channel
 from deployments.models import Deployment
 from sensors.models import SensorDeploymentDetails
-from ctech.models import SensorPosition, Plinth
+from egenie.models import SensorPosition, Plinth
 
 from django.db import transaction
 
