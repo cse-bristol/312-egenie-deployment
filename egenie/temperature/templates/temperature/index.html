@@ -1,0 +1,86 @@
+{% extends "egenie/front_screen.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block styles %}
+	<link rel="stylesheet" href="{% static 'temperature/css/calendar.css' %}">
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'vendor/js/jquery-1.11.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/js/jquery-migrate-1.2.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/d3.v3.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/d3.time.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/q.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/moment.js' %}"></script>
+	<script type="text/javascript" src="{% static 'sd_store/js/sd_store.dataloader.js' %}"></script>
+	<script type="text/javascript" src="{% static 'temperature/js/calendar.js' %}?x=1"></script>
+{% endblock %}
+
+{% block title %}
+Temperature Calendar
+{% endblock %}
+
+{% block content %}
+
+<div class="row button-row">
+  <div class="col-sm-12 bar-container">
+    <div class="month-container"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary prev"><span class="fa fa-arrow-circle-left"></span>&nbsp;Prev</button>
+      <button class="btn btn-primary now">Now</button>
+      <button class="btn btn-primary next">Next&nbsp;<span class="fa fa-arrow-circle-right"></span></button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-9 chart-container">
+  	<div class="chart panel panel-default">
+  	</div>
+	</div>
+  <div class="col-sm-3 floorplan-container">
+    {% include 'egenie/floorplan.html' with sensors=all_sensors deployments=all_deployments tiles_folder='tiles_mono' markers='true' %}
+    <div class="hint-panel panel panel-default">
+      <div class="panel-body">
+      Tap the markers on the floor plan to see how the temperature of that area has changed over the course of the week.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var server_url = "{% url 'root' %}";
+var sensor_id = {{ sensor.id }};
+var end = new Date();
+end.setMinutes(0);
+end.setSeconds(0);
+
+$(function () {
+	marker_by_id[sensor_id].fire('click');
+	$(".prev").click(function() {
+		end = new Date(end.getTime() - 24 * 60 * 60 * 1000); 
+		redraw_calendar(sensor_id, end);
+	})
+	$(".next").click(function() {
+		end = new Date(end.getTime() + 24 * 60 * 60 * 1000); 
+		redraw_calendar(sensor_id, end);
+	})
+  $(".now").click(function() {
+    end = new Date(); 
+    redraw_calendar(sensor_id, end);
+  })
+});
+</script>
+
+{% endblock %}
+
+{% block aboutscreen %}
+  <div class="modal-header">
+    <h4 class="modal-title">Temperature Calendar</h4>
+  </div>
+  <div class="modal-body">
+  This screen shows how the temperature in different areas of the building has changed over the course of the week. The highest temperature value reached during the day is shown in red, and the coldest in blue. You should be able to see some obvious patterns: when people are using the building; when the heating is turned on due to events. There might also be some times that are hotter or colder than you'd expect - you may want to discuss these with your colleagues or operations manager.
+    <hr />
+  </div>
+{% endblock %}

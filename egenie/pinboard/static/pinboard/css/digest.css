@@ -1,0 +1,46 @@
+.digest .comment-panel {
+	width: 100%;
+	padding: 0.5em;
+	padding-top: 0;
+}
+
+.digest .heading {
+	font-size: 1.5em;
+	margin: 0.1em;
+}
+
+.digest .list-panel .panel-body {
+	padding: 0.1em;
+}
+
+.main-container {
+    max-height: calc(100% - 80px);
+    overflow-y: scroll;
+    padding: 0px 10%;
+    /*margin-top: 60px;*/
+}
+
+/*.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4C4;
+    height: 30px;
+}*/
+
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+  overflow: hidden;
+}
+html body .container-fluid.body-content {
+  position: absolute;
+  top: 50px;
+  bottom: 30px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+}

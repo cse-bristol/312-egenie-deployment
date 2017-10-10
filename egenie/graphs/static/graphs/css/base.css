@@ -1,0 +1,263 @@
+.ui-dialog
+{
+    z-index: 101;
+}
+
+.button-row {
+    padding-bottom: 0.2em !important;
+}
+
+.floorplan-container {
+    padding-left: 0px;
+    padding-right: 0.3em;
+}
+
+.chart-container {
+    padding-right: 0.1em;
+    padding-left: 0.3em;
+}
+
+.bar-container {
+    padding-right: 0.1em !important;
+    padding-left: 0.3em  !important;
+}
+
+.startdate {
+    color: white;
+    padding-right: 0.5em;
+}
+
+.swatch {
+    padding-right: 12px;
+    padding-left: 12px;
+    padding-top: 6px;
+}
+/*.main-container {
+    background-color: white;
+}*/
+.next-panel {
+    min-height: 64px;
+}
+.chart {
+    font: 14px sans-serif;
+    /* border: 1px solid black; */
+    /*margin-left: 2%;*/
+    width: 100%;
+    height: 350px;
+    margin-bottom: 60px;
+    /* 
+    padding: 3px;
+    margin: 1px; 
+    */
+}
+
+.chart rect.selection {
+    fill: #005a63;
+    /*stroke: white;*/
+    filter:alpha(opacity=25);
+    opacity:0.25; 
+    pointer-events:none;
+}
+
+.no_data_text {
+    font-size: 48px;
+    fill: black;
+}
+/*
+path.selected {
+    stroke-width: 2;
+    fill: none;
+}*/
+
+/*.swatch {
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+}*/
+/*
+path.target {
+    stroke-width: 3;
+    stroke: red;
+    fill: none;
+    pointer-events:none;
+}
+
+.filtered {
+    stroke-width: 2 !important;
+}*/
+
+.btn-line1 {
+    background-image: linear-gradient(to bottom, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%) !important;
+    background-color: rgba(73,165,191,1) !important;
+}
+
+.btn-line2 {
+    background-image: linear-gradient(to bottom, rgba(193,209,104,1) 0%, rgba(117,137,12,1) 100%) !important;
+    background-color: rgba(117,137,12,1) !important;
+}
+
+.btn-line3 {
+    background-image: linear-gradient(to bottom, rgba(203,96,179,1) 0%, rgba(219,54,164,1) 100%) !important;
+    background-color: rgba(203,96,179, 1) !important;
+}
+
+/*path.linechart {
+    fill: none;
+    stroke-width: 4;
+}
+
+path.trace {
+    fill: none;
+    stroke-width: 2;
+    stroke: black;
+}
+
+path.thintrace {
+    fill: none;
+    stroke-width: 1;
+    stroke: grey;
+}*/
+
+line {
+    stroke: black;
+}
+
+.bgs {
+    fill: white;
+    filter:alpha(opacity=90);
+    opacity:0.05; 
+}
+
+rect.xGridBg1 {
+    fill: white;
+    filter:alpha(opacity=50);
+    opacity:0.5;  
+}
+
+rect.xGridBg2 {
+    fill: white;
+    filter:alpha(opacity=50);
+    opacity:0.5;  
+}
+
+.event_icon {
+    fill: white;
+    /* filter:alpha(opacity=70);
+    opacity:0.7; */ 
+    stroke: none;
+    stroke-width: 2;
+    cursor: pointer;
+    /* pointer-events: none; */
+}
+
+.event_icon_bubble {
+    fill: white;
+    /* filter:alpha(opacity=70);
+    opacity:0.7; */ 
+    stroke: steelblue;
+    stroke-width: 2;
+    cursor: pointer;
+}
+ 
+.event_icon_overlap {
+    fill: steelblue;
+    /* filter:alpha(opacity=50);
+    opacity:0.5; */ 
+    stroke: steelblue;
+    stroke-width: 2;
+    cursor: pointer;
+}
+ 
+.event_icon_text {
+    fill: white;
+    cursor: pointer;
+    text-anchor: middle;
+    font-size: 18px;
+    pointer-events: none;
+}
+ 
+rect.pz_controls {
+    fill: white;
+    filter:alpha(opacity=70);
+    opacity:0.7; 
+    stroke: black;
+    stroke-width: 1;
+}
+
+.pz_button {
+    fill: white;
+    /* filter:alpha(opacity=50);
+    opacity:0.5; */ 
+    stroke: black;
+    stroke-width: 1;
+    cursor: pointer;
+}
+
+.chart .carpetrow {
+    opacity: 0.20;
+    filter:alpha(opacity=20);
+}
+
+.event.suggestion{
+    fill: #6f8e9d;
+}
+
+.event_overlap{
+    fill: #43A2C0;
+    cursor: pointer;
+}
+
+.event{
+    fill: #ee0000;
+    stroke: white;
+    filter:alpha(opacity=30);
+    opacity:0.2;
+}
+
+.event.highlight, .event_overlap.highlight{
+    fill: #f55631;
+    opacity:0.3;
+}
+
+.carpetevent{
+    stroke: white;
+    cursor: pointer;
+}
+
+.icon img{
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: white;
+    margin: 0px 3px;
+}
+
+image.selection_handle{
+    cursor: pointer;
+}
+
+/* event creation/edit dialog */
+
+#iconField {
+    width: 100%;
+}
+
+#iconField .icon {
+    /*background-color: #9cd4eb;*/
+    background-color: #6699CC;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    padding: 12px;
+    border: white solid 2px;
+    width: 26px;
+}
+
+textarea#eventNameField {
+    width: 99%;
+    height: 4em;
+    overflow: auto;
+    resize: none;
+    border: 1px solid #6699CC;
+    padding-left: 3px;
+}
+
+

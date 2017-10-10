@@ -1,0 +1,266 @@
+{% extends "egenie/front_screen.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block scripts %}
+<script type="text/javascript">
+        var GROUP_URL = "{{ ROOT_URL }}/graphs/{{deployment.id}}/devices";
+        var ANNOTATION_URL = "{{ ROOT_URL }}/annotation/";
+        var DEPLOYMENT_ID = {{deployment.id}};
+    </script>
+    <script src="{% static 'vendor/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'vendor/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'vendor/js/d3.min.js' %}"></script>
+    <script src="{% static 'vendor/js/jasny-bootstrap.min.js' %}"></script>
+    <!-- FE scripts and CSS -->
+    <script type="text/javascript" src="{% static 'graphs/js/fe.logger.js' %}"></script>
+    <script type="text/javascript" src="{% static 'graphs/js/fe.logger.plot.js' %}"></script>
+    <script type="text/javascript" src="{% static 'graphs/js/fe.logger.annotation.default.js' %}"></script>
+    <script type="text/javascript" src="{% static 'graphs/js/fe.logger.selection.rubberband.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/js/spin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/js/fastclick.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/js/jquery.spin.js' %}"></script>
+{% endblock %}
+{% block styles %} 
+    <!--  Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'vendor/css/font-awesome.min.css' %}">
+    <!-- D3-->
+    <!-- Date picker -->
+    <link href="{% static 'vendor/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'vendor/css/bootstrap-datepicker.standalone.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Jansy-->
+    <link rel="stylesheet" href="{% static 'vendor/css/jasny-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'graphs/css/base.css' %}?v2">
+    <!-- Javascript -->
+    <script src="{% static 'graphs/js/v6.js' %}?v2"></script>
+    <link rel="stylesheet" href="{% static 'graphs/css/v6.css' %}?v2">
+
+{% endblock %}
+
+{% block title %}Electricity Usage{% endblock %}
+
+{% block content %}
+
+    <div class="row button-row">
+        <div class="col-sm-12 bar-container">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button class="btn btn-primary filter-menu-prev">
+                        <span class="fa fa-arrow-circle-left"></span>&nbsp;Prev
+                    </button>
+                    <button class="btn btn-primary filter-menu-now">
+                        Now
+                    </button>
+
+                    <button class="btn btn-primary filter-menu-next">
+                        Next&nbsp;<span class="fa fa-arrow-circle-right"></span>
+                    </button>
+                </div>
+                <div class="btn-group swatches">
+                {% for colour in colours %}
+                    <button class="btn btn-md swatch" data-channel-id="{{colour.pair.channel.id}}" data-sensor-ref="{{colour.pair.sensor.id}}"  data-selected="true" style="background-color:{{colour.colour}}">
+                    <i class="fa fa-fw fa-check"></i>
+                    </button>
+                {% endfor %}
+                </div>
+                {% if onsite and at_plinth %}
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="makeNote" disabled>&nbsp;Add Note</button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-9 chart-container">
+            <!-- Central block-->
+            <div class="center-column">
+                <!-- <div class="site-details">{{ object.address_line_one }}</div> -->
+
+                <input id="date_from_server" name="date_from_server" type="hidden" value="{{ dateFrom }}" />    
+                <input id="date_to_server" name="date_to_server" type="hidden" value="{{ dateTo }}" />
+                <div class="chart"></div>
+            </div>
+            <div class="startdate text-right">{{dateFrom|date:"l jS F"}}</div>
+        </div>
+        <div class="col-sm-3 floorplan-container">
+            {% include 'egenie/floorplan.html' with sensors=all_sensors tiles_folder='tiles' markers='false' %}
+            <div class="hint-panel panel panel-default">
+              <div class="panel-body">
+              The coloured lines on the graph show the electricity usage of the zones on the floor plan. Drag and click Add Note to annotate it!
+              </div>
+            </div>
+        </div>
+    </div>
+
+<!-- 
+    <div class="row">
+    </div>
+ -->
+    <div class="subbar hidden">
+        <div class="row">
+            <div class="col-sm-1 prev text-center"><a href="#" class="annotation-prev"><i class="fa fa-2x fa-arrow-circle-left"></i></a></div>
+            <div class="col-sm-10 annotation-section">
+                <div class="row hidden">
+                    <div class="col-sm-3 date text-right"><p class="">3rd Mar, 03:00 - 04:44</p></div>
+                    <div class="col-sm-7 text-left username"><p class=""><i class="fa fa-user"></i>&nbsp;<span class="author"></span>:&nbsp;<span class="annotation"></span></p></div>
+                    <div class="col-sm-2 text-center"><button class="btn btn-sm btn-primary notejump">Go To Note</button></div>
+                </div>
+            </div>
+            <div class="col-sm-1 next text-center"><a href="#" class="annotation-next"><i class="fa fa-2x fa-arrow-circle-right"></i></a></div>
+        </div>
+    </div>
+
+{% if onsite %}
+<div class="modal fade" id="annotateScreen" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Annotation Tool</h4>
+      </div>
+      <div class="modal-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="signin">
+                <form class="form-horizontal add-annotation-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="deployment" value="{{deployment.id}}" />
+                    <input type="hidden" class="an-start" name="start" value="" />
+                    <input type="hidden" class="an-end" name="end" value="" />
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="author">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="author" name="author" placeholder="Username" autocapitalize="off" autocorrect="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="noteText">Note</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="noteText" name="text" rows="3" placeholder="Your note here!"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="col-sm-10 col-sm-offset-1 btn btn-success add-note" type="submit">Make Note</button>
+                    </div>
+                    <div class="strike">
+                    <span>or</span>
+                    </div>
+                    <div class="row">
+                    <a class="col-sm-10 col-sm-offset-1 btn btn-primary" href="#register" role="tab" data-toggle="tab">Request A Username</a>
+                    </div>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="register">
+                <form class="form-horizontal" id="requestForm">
+                    {% csrf_token %}
+                    <p class="text-center login-help">No username? Let us know your email address, and we'll send you an introductory survey and a username.</p>
+                    <div class="alert alert-success sent hidden">We have sent you a username and your survey!</div>
+                    <div class="alert alert-danger exists hidden">This email already has a username associated with it.</div>
+                    <div class="alert alert-danger invalid hidden">Please enter a valid email address.</div>
+                    <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="myemail@example.com" />
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <a class="btn btn-primary" href="#signin" role="tab" data-toggle="tab">Back</a>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <a class="btn btn-primary" id="btnRequest">Request Username</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+ </div>
+ </div>
+ {% endif %}
+
+ <script type="text/javascript">
+$('#tabSignIn').on('shown.bs.tab', function (e) {
+    $("#username").focus();
+    $(".sent").addClass("hidden");
+    $(".exists").addClass("hidden");
+    $(".invalid").addClass("hidden");
+    $(".unregistered").addClass("hidden");
+})
+
+$("#btnRequest").click(function() {
+    $(".sent").addClass("hidden");
+    $(".exists").addClass("hidden");
+    $(".invalid").addClass("hidden");
+    $.post("{% url 'register' %}", $("#requestForm").serialize(), function(data) {
+        if(data['status'] == 'exists') {
+            $(".exists").removeClass("hidden");
+        }
+        else if(data['status'] == 'invalid') {
+            $(".invalid").removeClass("hidden");
+        }
+        else {
+            $(".sent").removeClass("hidden");
+        }
+    })
+});
+
+$(".swatch").click(function() {
+    var icon = $(this).find("i");
+    if(icon.hasClass('fa-check'))
+    {
+        icon.removeClass('fa-check').addClass('fa-times');
+    }
+    else {
+        icon.removeClass('fa-times').addClass('fa-check');
+    }
+});
+
+</script>
+
+{% endblock %}
+
+{% block extra %}
+{{ block.super }}
+<!-- Main menu - slides on from left -->
+<div class="main-menu-frame">
+    <nav id="side_nav_menu" class="navmenu navmenu-inverse" role="navigation">
+        <a class="navmenu-brand" href="#">Main Menu</a>
+        <ul class="nav navmenu-nav">
+            <li class="active"><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div id="svg-temp" hidden>test
+</div>
+
+<!--FE Scripts part 2-->
+<script type="text/javascript">
+    var server_url = '{{ ROOT_URL }}/';
+</script>
+
+<script type="text/javascript" src="{% static 'vendor/js/moment.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/js/simplify.js' %}"></script>
+<script type="text/javascript" src="{% static 'graphs/js/sd_store.dataloader.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/js/d3.v3.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/js/d3.time.js' %}"></script>
+<script type="text/javascript" src="{% static 'graphs/js/fe.datastore.js' %}"></script>
+<script type="text/javascript" src="{% static 'graphs/js/fe.global_functions.js' %}"></script>
+<script type="text/javascript" src="{% static 'graphs/js/fe.datepickerutils.js' %}"></script>
+<script type="text/javascript" src="{% static 'graphs/js/fe.logger.ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'graphs/js/fe.logger.eventdialog.js' %}"></script>
+{% endblock %}
+
+{% block aboutscreen %}
+  <div class="modal-header">
+    <h4 class="modal-title">Annotation Tool</h4>
+  </div>
+  <div class="modal-body">
+  This screen displays a range of data collected by the GENIE sensors over the last 24 hours. These might be the power consumed by devices plugged into desks, meeting rooms, or kitchens, or they might be the temperatures of different parts of the building. If you would like to highlight something on this data, drag to select a portion of the graph and you will be asked to leave a note. These will be visible to other users of the system.
+    <hr />
+  </div>
+{% endblock %}
