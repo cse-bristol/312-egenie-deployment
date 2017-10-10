@@ -1,0 +1,40 @@
+.day {
+    text-align: center; 
+}
+
+.day h1 {
+    font-weight: normal;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.up {
+    color: red;
+}
+
+.down, .same {
+    color: green;
+}
+
+.change {
+    font-size: 2em;
+}
+
+.advice {
+    /*font-size: 0.5em;*/
+}
+
+.largebox h1 {
+    font-size: 1.5em;
+    font-weight: normal;
+}
+
+.chart .daybox {
+    width: 33%;
+    padding-left: 0.5em;
+    padding-top: 0;
+}
+
+.largebox {
+    width: 100% !important;
+}

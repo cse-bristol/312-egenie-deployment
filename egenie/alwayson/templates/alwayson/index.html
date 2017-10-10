@@ -1,0 +1,52 @@
+{% extends "egenie/front_screen.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block styles %}
+	<link rel="stylesheet" href="{% static 'alwayson/css/always_on_display.css' %}">
+{% endblock %}
+
+{% block extra %}
+{{ block.super }}
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js"></script>
+	<script type="text/javascript">
+	var server_url = "{% url 'root' %}";
+	var sensor_id = {{ sensor.id }};
+	</script>
+	<script type="text/javascript" src="{% static 'vendor/js/d3.v3.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/d3.time.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/q.js' %}"></script>
+	<script type="text/javascript" src="{% static 'sd_store/js/sd_store.dataloader.js' %}"></script>
+	<script type="text/javascript" src="{% static 'alwayson/js/always_on_display.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vendor/js/moment.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+Always On Electricity
+{% endblock %}
+
+{% block content %}
+
+<div class="chart">
+	<div class="daybox largebox">
+		<div class="panel panel-default">
+			<div class="panel-body">
+			<p>How much energy does your building use overnight (compared to the previous night)? Always-On Electricity measures the power used by devices that are left on while no-one's around. </p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block aboutscreen %}
+  <div class="modal-header">
+    <h4 class="modal-title">Always-On Electricity</h4>
+  </div>
+  <div class="modal-body">
+  On this screen, we show how the overnight energy use of the building changes during the week, comparing each night's usage to that of the previous night. While some devices may have to be turned on overnight (servers, security lights, etc), other devices may have been left powered by mistake. If you see that more energy was consumed last night, then you might want to look into whether something wasn't switched off that could have been. 
+    <hr />
+  </div>
+{% endblock %}
