@@ -22,8 +22,10 @@ from django.contrib.auth.models import User
 
 
 class SimpleBackend(object):
+    """ eGenie needs a slightly more involved approach to logging in than normal: a password is optional, but only if the user is not an administrator (i.e. superuser or staff). """
 
     def authenticate(self, request, username=None, password=None):
+        """ Authenticate given a username and password. Users are deemed to be authenticated if either a) they are an administrator and have provided the correct password, or b) they are not an administrator. """
         try:
             user = User.objects.get(username=username)
             # Admins can only log in with a password
@@ -36,6 +38,7 @@ class SimpleBackend(object):
         return user
 
     def get_user(self, user_id):
+        """ Retrieve a user given a User ID. """
         try:
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:

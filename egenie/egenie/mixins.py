@@ -148,7 +148,7 @@ class AccessMixin(object):
 class LoginRequiredMixin(AccessMixin):
     """
     View mixin which verifies that the user is authenticated and redirects appropriately (to a Forbidden response if an issue occurs during authentication, otherwise to the login screen)
-    NOTE: This should be the left-most mixin of a view, except when combined with CsrfExemptMixin - which in that case should be the left-most mixin.
+      .. note:: This should be the left-most mixin of a view, except when combined with CsrfExemptMixin - which in that case should be the left-most mixin.
     """
 
     def dispatch(self, request, *args, **kwargs):
