@@ -1,6 +1,6 @@
 *.pyc
 secure.py
-*.sqlite3
+egenie/egenie/db.sqlite3
 .DS_Store
 egenie/docs/_build
 egenie/docs/_static
