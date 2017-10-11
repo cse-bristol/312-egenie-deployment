@@ -24,34 +24,49 @@ from sensors.models import SensorDeploymentDetails
 
 class Deployment(TimeStampedModel):
     """
-    To record information a deployment. While the hub might not be permanent
+    Records information about a deployment. While the hub might not be permanent
     (if it gets reassigned to another deployment) the sensor readings are
-    permanent to this deployment.
+    permanent to this deployment via :class:`~sensors.models.SensorDeploymentDetails`.
     """
+
     client_name = models.CharField(max_length=255)
+    """The client name: might be a home owner's name (Mrs Jones), or a company name (ABC Ltd), for example."""
+
     address_line_one = models.CharField(max_length=255)
+    """The first line of the deployment's physical address."""
     post_code = models.CharField(max_length=255)
+    """The deployment's postcode."""
+
     notes = models.TextField(null=True, blank=True)
+    """Any notes that go along with the deployment."""
 
     photo = models.ImageField(
         upload_to='deployment_photos', null=True, blank=True)
+    """A photo to represent the deployment - might be a picture of a room or a building."""
 
     gas_pence_per_kwh = models.IntegerField(default=0)
+    """How much gas costs per KWh in the location."""
     elec_pence_per_kwh = models.IntegerField(default=0)
+    """How much electricity costs per KWh in the location."""
 
     hub = models.OneToOneField(
         'hubs.Hub', blank=True, null=True)
+    """The hub that has been deployed at the site. This is optional until the deployment needs to be started."""
 
     # sensors = models.ManyToManyField(
     #     'sd_store.Sensor',
     #     through='sensors.SensorDeploymentDetails')
 
     pairs = models.ManyToManyField('sd_store.SensorChannelPair')
+    """A set of sensor/channel pairs associated with this deployment. e.g. temperature_1 / temperature. 
+
+  .. warning:: Check that this is actually used."""
 
     def __unicode__(self):
         return self.client_name
 
     def end(self):
+        """ End this deployment. The end_date is set to the current date and time, any sensors that are active in the deployment are deactivated, and the hub is cleared for use in other deployments."""
         try:
             deployment_state = self.deployment_states.get(
                 end_date__isnull=True)
@@ -73,11 +88,13 @@ class Deployment(TimeStampedModel):
 
     @property
     def running(self):
+        """ True if the deployment is running (i.e. does not have `end_date` set), False otherwise."""
         if self.deployment_states.filter(end_date__isnull=True):
             return True
         return False
 
     def start(self):
+        """ Start the deployment if not already running. Creates a new DeploymentState, and clears any existing sensor readings. Raises a ValueError if the Deployment is running already."""
         if self.running:
             raise ValueError('Deployment is already running')
 
@@ -117,7 +134,7 @@ class Deployment(TimeStampedModel):
 class DeploymentState(TimeStampedModel):
     """
     Records when a deployment started and when it ended.
-    The start date is the created field.
+    The start date is found via the built-in created field (i.e. when the DeploymentState was created).
     """
     end_date = models.DateTimeField(null=True)
 

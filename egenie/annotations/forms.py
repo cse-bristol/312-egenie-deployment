@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 
 
 class DeploymentAnnotationForm(forms.ModelForm):
+    """ A form to represent a Deployment Annotation. Note that author is provided as a User (typically the request user), and converted to a username. 'start' and 'end' are in dd/mm/YYYY HH:MM:SS form."""
 
     class Meta:
         fields = ['start', 'end', 'deployment', 'text', 'author']

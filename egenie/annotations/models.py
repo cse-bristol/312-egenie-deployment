@@ -26,7 +26,7 @@ from deployments.models import Deployment
 
 class DeploymentAnnotation(TimeStampedModel):
     """
-    An annotation associated with a deployment. Contains some text, the date/time range, and the creator.
+    An annotation associated with a deployment. Contains some text, the date/time range, and the creator. Has a foreign key reference to the creating user and the deployment.
     """
     text = models.TextField()
     start = models.DateTimeField()

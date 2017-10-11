@@ -5,9 +5,8 @@ from sd_store.models import Sensor
 
 
 class AlwaysOnView(RotatingView):
-    """ Always On front screen. Displays the energy use in a calendar form.
-    *This currently has a hardcoded sensor to display. This should become a configuration option.*
-    """
+    """ Displays the Always On calendar given a single (hardcoded) sensor."""
+
     template_name = 'alwayson/index.html'
 
     def get_context_data(self, **kwargs):
