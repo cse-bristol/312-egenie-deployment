@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block styles %}{% endblock %}
+
+{% block extra %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-12">
+	<div class="panel panel-default">
+		<div class="panel-body">
+		{% if plinth %}
+		<dl>
+			<dt>Current ID</dt><dd>{{ plinth.id }}</dd>
+			<dt>Location</dt><dd>{{ plinth.location }}</dd>
+			<dt>Printer</dt><dd>{{ plinth.printer }}</dd>
+			<dt>Pi IP</dt><dd>{{ plinth.pi_ip }}</dd>
+		</dl>
+		{% else %}
+		<h4>Plinth is currently set to 'public'.</h4>
+		{% endif %}
+		<hr />
+			<form class="form-horizontal" method="post" action="{% url 'setup' %}">
+				<div class="form-group">
+					{% csrf_token %}
+					<label class="control-label col-lg-2" for="plinthid">Plinth ID</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" id="plinthid" name="plinthid" placeholder="ID" />
+					</div>
+				</div>
+				<div class="text-center">
+					<input class="btn btn-default" name="btn-update" type="submit" value="Update" />
+					<input class="btn btn-default" name="btn-reset" type="submit" value="Reset" />
+				</div>
+			</form>
+		</div>
+	</div>
+	</div>
+</div>
+{% endblock %}

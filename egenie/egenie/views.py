@@ -1,4 +1,4 @@
-
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, RedirectView, View
 from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse
@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 from django.template.loader import get_template
 from django.template import Context
+import datetime
 
 
 class RootView(RedirectView):

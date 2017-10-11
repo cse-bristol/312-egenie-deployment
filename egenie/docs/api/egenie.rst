@@ -16,14 +16,6 @@ Subpackages
 Submodules
 ----------
 
-egenie\.admin module
---------------------
-
-.. automodule:: egenie.admin
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 egenie\.backends module
 -----------------------
 
@@ -72,14 +64,6 @@ egenie\.models module
     :undoc-members:
     :show-inheritance:
 
-egenie\.urls module
--------------------
-
-.. automodule:: egenie.urls
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 egenie\.views module
 --------------------
 
@@ -87,13 +71,3 @@ egenie\.views module
     :members:
     :undoc-members:
     :show-inheritance:
-
-egenie\.wsgi module
--------------------
-
-.. automodule:: egenie.wsgi
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-

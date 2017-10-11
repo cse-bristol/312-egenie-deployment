@@ -25,7 +25,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 class UniqueUserEmailField(forms.EmailField):
     """
-    An EmailField which only is valid if no User has that email.
+    An EmailField which is only valid if no other User has that email.
     """
     def validate(self, value):
         super(forms.EmailField, self).validate(value)
@@ -38,6 +38,7 @@ class UniqueUserEmailField(forms.EmailField):
             pass
 
 class UserCreateForm(UserCreationForm):
+    """ A user creation form that does not require a password, and requires a unique username."""
     email = UniqueUserEmailField(required=True)
 
     class Meta:
@@ -61,6 +62,8 @@ class UserCreateForm(UserCreationForm):
         return user
 
 class SimpleLoginForm(forms.Form):
+    """ A simplified login form. This only differs from the django.contrib.auth AuthenticationForm in that a password is not required for authentication. """
+
     username = forms.CharField(
         max_length=254, 
         widget=forms.TextInput(attrs={'autofocus':''}),

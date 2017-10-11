@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block styles %}{% endblock %}
+
+{% block extra %}
+{% endblock %}
+{% block title %}About GENIE{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-8 col-sm-offset-2">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p>GENIE is part of an academic research project.</p>
+				<p>As part of this research your use of GENIE will be logged. This data will be anonymised prior to any publication.</p>
+				<p>For further information, please see the email you were sent which contained your GENIE login. If you do not want to proceed, please use the Back button below.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footercont %}
+<footer class="footer">
+    <div class="container">
+		<a href="{% url 'root' %}" class="btn btn-primary btn-lg pull-left">Back</a>
+		<a href="{% url 'approve' %}?next={{ next }}" class="btn btn-primary btn-lg pull-right">Continue</a>
+	</div>
+</footer>
+{% endblock %}

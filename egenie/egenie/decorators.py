@@ -4,6 +4,11 @@ from egenie.models import Participant
 
 
 def agree_required(f):
+    """ Some screens require that the user agrees to the study's conditions. If they have already agreed, they are forwarded on to the URL. Otherwise, they are redirected to an information page where they can choose to continue.
+
+.. warning:: This is disabled at the moment (user=None rather than user=request.user).
+    """
+
     def wrapped(request, *args, **kwargs):
         url = reverse('info')
         participants = Participant.objects.filter(user=None)
