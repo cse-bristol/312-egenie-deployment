@@ -6,7 +6,7 @@ $(function () {
     now.setSeconds(0);
 
     parameters = {
-        url: server_url + 'sdstore/',
+        url: server_url + 'sd_store/',
         start: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000),
         end: now,
         user: true, // this means "load by user"

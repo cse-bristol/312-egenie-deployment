@@ -31,7 +31,7 @@ urlpatterns.extend([
     url(r'^pinboard/', include('pinboard.urls', namespace='pinboard')),
 
     # Support Applications
-    url(r'^sdstore/', include('sd_store.urls')),
+    url(r'^sd_store/', include('sd_store.urls')),
     url(r'^annotation/', include('annotations.urls', namespace='annotations')),
     url(r'^spirit/', include(spirit.urls), name='spirit'),
     url(r'^sensors/', include('sensors.urls', namespace='sensors')),
