@@ -10,7 +10,7 @@ function redraw_calendar(sensor_id, end) {
     start.setHours(0, 0, 0, 0);
     end.setHours(23, 59, 0, 0);
     var parameters = {
-        url: server_url + 'sdstore/',
+        url: server_url + 'sd_store/',
         start: start,
         end: end,
         sensor: sensor_id,
