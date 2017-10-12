@@ -29,18 +29,20 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-INSTALLED_APPS = []
-MIDDLEWARE_CLASSES = []
-from spirit.settings import *
+# from spirit.settings import *
 
-INSTALLED_APPS.extend([
+LOGIN_URL = 'spirit:user:auth:login'
+LOGIN_REDIRECT_URL = 'spirit:user:update'
+
+INSTALLED_APPS = [
     'django.contrib.humanize',
-    # 'django.contrib.admin',
-    # 'django.contrib.auth',
-    # 'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
     'hubs',
     'sensors',
     'deployments',
@@ -54,19 +56,77 @@ INSTALLED_APPS.extend([
     'temperature',
     'graphs',
     'annotations',
-])
-INSTALLED_APPS.insert(0, 'pinboard')
+    'pinboard',
 
-MIDDLEWARE_CLASSES.extend([
-    'django.middleware.security.SecurityMiddleware',
+    'djconfig',
+    'haystack',
+]
+
+
+# Spirit Applications
+INSTALLED_APPS.extend([
+
+    'spirit.core',
+    'spirit.admin',
+    'spirit.search',
+
+    'spirit.user',
+    'spirit.user.admin',
+    'spirit.user.auth',
+
+    'spirit.category',
+    'spirit.category.admin',
+
+    'spirit.topic',
+    'spirit.topic.admin',
+    'spirit.topic.favorite',
+    'spirit.topic.moderate',
+    'spirit.topic.notification',
+    'spirit.topic.poll',  # todo: remove in Spirit v0.6
+    'spirit.topic.private',
+    'spirit.topic.unread',
+
+    'spirit.comment',
+    'spirit.comment.bookmark',
+    'spirit.comment.flag',
+    'spirit.comment.flag.admin',
+    'spirit.comment.history',
+    'spirit.comment.like',
+    'spirit.comment.poll',
+])
+
+MIDDLEWARE_CLASSES =[
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'spirit.user.middleware.TimezoneMiddleware',
+    'spirit.user.middleware.LastIPMiddleware',
+    'spirit.user.middleware.LastSeenMiddleware',
+    'spirit.user.middleware.ActiveUserMiddleware',
+    'spirit.core.middleware.PrivateForumMiddleware',
+    'djconfig.middleware.DjConfigMiddleware',
     'egenie.middleware.CTechMiddleware'
-])
+]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'spirit_cache',
+    },
+}
+
+CACHES.update({
+    'st_rate_limit': {
+        'BACKEND': CACHES['default']['BACKEND'],
+        'LOCATION': 'spirit_rl_cache',
+        'TIMEOUT': None
+    }
+})
 
 ROOT_URLCONF = 'egenie.urls'
 
@@ -81,6 +141,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'djconfig.context_processors.config',
             ],
         },
     },
@@ -118,7 +179,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -143,3 +204,48 @@ PRIVATE_CATEGORY = 'fm-messages'
 AUTH_USER_MODEL = 'auth.User'
 
 AUTHENTICATION_BACKENDS = ('egenie.backends.SimpleBackend',)
+
+# Spirit Settings
+
+ST_TOPIC_PRIVATE_CATEGORY_PK = 1
+
+ST_RATELIMIT_ENABLE = True
+ST_RATELIMIT_CACHE_PREFIX = 'srl'
+ST_RATELIMIT_CACHE = 'default'
+ST_RATELIMIT_SKIP_TIMEOUT_CHECK = False
+
+ST_NOTIFICATIONS_PER_PAGE = 20
+
+ST_COMMENT_MAX_LEN = 3000
+ST_MENTIONS_PER_COMMENT = 30
+ST_DOUBLE_POST_THRESHOLD_MINUTES = 30
+
+ST_YT_PAGINATOR_PAGE_RANGE = 3
+
+ST_SEARCH_QUERY_MIN_LEN = 3
+
+ST_USER_LAST_SEEN_THRESHOLD_MINUTES = 1
+
+ST_PRIVATE_FORUM = False
+
+ST_ALLOWED_UPLOAD_IMAGE_FORMAT = ('jpeg', 'png', 'gif')
+ST_ALLOWED_URL_PROTOCOLS = {
+    'http', 'https', 'mailto', 'ftp', 'ftps',
+    'git', 'svn', 'magnet', 'irc', 'ircs'}
+
+ST_UNICODE_SLUGS = True
+
+ST_UNIQUE_EMAILS = True
+ST_CASE_INSENSITIVE_EMAILS = True
+
+# Tests helpers
+ST_TESTS_RATELIMIT_NEVER_EXPIRE = False
+
+ST_BASE_DIR = os.path.dirname(__file__)
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'search', 'whoosh_index'),
+    },
+}
