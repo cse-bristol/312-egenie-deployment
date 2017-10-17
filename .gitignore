@@ -3,7 +3,7 @@ env
 secure.py
 .DS_Store
 venv
-egenie/docs/_build
-egenie/docs/_static
-egenie/egenie/db.sqlite3
-egenie/src
+src/egenie/docs/_build
+src/egenie/docs/_static
+src/egenie/egenie/db.sqlite3
+src/egenie/src
