@@ -16,14 +16,19 @@
 # encoding:UTF-8
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
+from spirit.user.models import UserProfile
+from django.db import transaction
 
 
+@transaction.atomic
 class Command(BaseCommand):
     """ An anonymous user is used in some places in e-Genie, especially when
     sending feedback or writing on the pinboard. This user is used in these situations."""
     help = 'Create anonymous user'
 
     def handle(self, *args, **options):
-        User.objects.create_user(username='anonymous',
-                                 email='anonymous@e-genie.co.uk',
-                                 password='')
+        anonymous = User.objects.create_user(username='anonymous',
+                                             email='anonymous@e-genie.co.uk',
+                                             password='')
+
+        UserProfile.objects.create(user=anonymous)
