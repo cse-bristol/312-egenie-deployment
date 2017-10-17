@@ -35,8 +35,8 @@ LOGIN_URL = 'spirit:user:auth:login'
 LOGIN_REDIRECT_URL = 'spirit:user:update'
 
 INSTALLED_APPS = [
-    'django.contrib.humanize',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -82,7 +82,7 @@ INSTALLED_APPS.extend([
     'spirit.topic.favorite',
     'spirit.topic.moderate',
     'spirit.topic.notification',
-    'spirit.topic.poll',  # todo: remove in Spirit v0.6
+    # 'spirit.topic.poll',  # todo: remove in Spirit v0.6
     'spirit.topic.private',
     'spirit.topic.unread',
 
@@ -95,7 +95,7 @@ INSTALLED_APPS.extend([
     'spirit.comment.poll',
 ])
 
-MIDDLEWARE_CLASSES =[
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
