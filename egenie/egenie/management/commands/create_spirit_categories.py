@@ -16,7 +16,6 @@
 # along with e-genie.  If not, see <http://www.gnu.org/licenses/>.
 
 from spirit.category.models import Category
-from spirit.user.models import UserProfile
 
 from django.db import transaction
 from django.core.management.base import BaseCommand, CommandError
@@ -32,5 +31,3 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         Category.objects.create(title='user-posts')
         Category.objects.create(title='fm-messages')
-        anonymous = User.objects.get(username='anonymous')
-        UserProfile.objects.create(user=anonymous)

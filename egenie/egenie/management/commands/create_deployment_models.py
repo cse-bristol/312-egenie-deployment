@@ -32,7 +32,7 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
 
-        admin_user = User.objects.get(username='moj')
+        admin_user = User.objects.get(username='admin')
 
         temperature_channel = Channel.objects.create(
             name="temperature",
