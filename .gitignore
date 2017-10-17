@@ -1,6 +1,9 @@
+env
 *.pyc
 secure.py
-egenie/egenie/db.sqlite3
 .DS_Store
+venv
 egenie/docs/_build
 egenie/docs/_static
+egenie/egenie/db.sqlite3
+egenie/src
