@@ -7,4 +7,6 @@ RUN pip3 install -r /app/requirements.txt
 
 RUN mkdir -p /media/
 
+COPY . /app
+
 CMD /app/uwsgi.sh
