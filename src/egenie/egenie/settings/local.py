@@ -17,6 +17,6 @@ DEBUG = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-FM_EMAIL = "mjewell@gmail.com"
+FM_EMAIL = "fm@example.com"
 
 SITE_IPS = ['127.0.0.1', '62.255']
