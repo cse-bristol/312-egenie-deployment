@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>deployments.models &mdash; eGenie 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="eGenie 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> eGenie
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">eGenie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#carousel-screens">Carousel Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#inner-screens">Inner Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#supporting-applications">Supporting Applications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">eGenie</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>deployments.models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for deployments.models</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding:UTF-8</span>
+
+<span class="c1"># This file is part of e-genie</span>
+<span class="c1">#</span>
+<span class="c1"># e-genie is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># e-genie is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
+<span class="c1"># along with e-genie.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
+
+<span class="kn">from</span> <span class="nn">django_extensions.db.models</span> <span class="k">import</span> <span class="n">TimeStampedModel</span>
+<span class="kn">from</span> <span class="nn">sensors.models</span> <span class="k">import</span> <span class="n">SensorDeploymentDetails</span>
+
+
+<div class="viewcode-block" id="Deployment"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.Deployment">[docs]</a><span class="k">class</span> <span class="nc">Deployment</span><span class="p">(</span><span class="n">TimeStampedModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Records information about a deployment. While the hub might not be permanent</span>
+<span class="sd">    (if it gets reassigned to another deployment) the sensor readings are</span>
+<span class="sd">    permanent to this deployment via :class:`~sensors.models.SensorDeploymentDetails`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">client_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The client name: might be a home owner&#39;s name (Mrs Jones), or a company name (ABC Ltd), for example.&quot;&quot;&quot;</span>
+
+    <span class="n">address_line_one</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The first line of the deployment&#39;s physical address.&quot;&quot;&quot;</span>
+    <span class="n">post_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The deployment&#39;s postcode.&quot;&quot;&quot;</span>
+
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Any notes that go along with the deployment.&quot;&quot;&quot;</span>
+
+    <span class="n">photo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span>
+        <span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;deployment_photos&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;A photo to represent the deployment - might be a picture of a room or a building.&quot;&quot;&quot;</span>
+
+    <span class="n">gas_pence_per_kwh</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;How much gas costs per KWh in the location.&quot;&quot;&quot;</span>
+    <span class="n">elec_pence_per_kwh</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;How much electricity costs per KWh in the location.&quot;&quot;&quot;</span>
+
+    <span class="n">hub</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
+        <span class="s1">&#39;hubs.Hub&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The hub that has been deployed at the site. This is optional until the deployment needs to be started.&quot;&quot;&quot;</span>
+
+    <span class="c1"># sensors = models.ManyToManyField(</span>
+    <span class="c1">#     &#39;sd_store.Sensor&#39;,</span>
+    <span class="c1">#     through=&#39;sensors.SensorDeploymentDetails&#39;)</span>
+
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;sd_store.SensorChannelPair&#39;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;A set of sensor/channel pairs associated with this deployment. e.g. temperature_1 / temperature. </span>
+
+<span class="sd">  .. warning:: Check that this is actually used.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_name</span>
+
+<div class="viewcode-block" id="Deployment.end"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.Deployment.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; End this deployment. The end_date is set to the current date and time, any sensors that are active in the deployment are deactivated, and the hub is cleared for use in other deployments.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">deployment_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deployment_states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="n">end_date__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">deployment_state</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+            <span class="n">deployment_state</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">DeploymentState</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Deployment isn&#39;t running so can&#39;t be ended&quot;</span><span class="p">)</span>
+
+        <span class="c1"># # Free up hub and sensors</span>
+        <span class="n">sensor_deployment_details</span> <span class="o">=</span> <span class="n">SensorDeploymentDetails</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">deployment</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">sensor_deployment_record</span> <span class="ow">in</span> <span class="n">sensor_deployment_details</span><span class="p">:</span>
+            <span class="n">sensor_deployment_record</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">sensor_deployment_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hub</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; True if the deployment is running (i.e. does not have `end_date` set), False otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deployment_states</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">end_date__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="Deployment.start"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.Deployment.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the deployment if not already running. Creates a new DeploymentState, and clears any existing sensor readings. Raises a ValueError if the Deployment is running already.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Deployment is already running&#39;</span><span class="p">)</span>
+
+        <span class="n">deployment_state</span> <span class="o">=</span> <span class="n">DeploymentState</span><span class="p">(</span>
+            <span class="n">deployment</span><span class="o">=</span><span class="bp">self</span>
+        <span class="p">)</span>
+        <span class="n">deployment_state</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># Clear out any existing readings</span>
+        <span class="n">sensor_deployment_details</span> <span class="o">=</span> <span class="n">SensorDeploymentDetails</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">deployment</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">sensor_deployment_record</span> <span class="ow">in</span> <span class="n">sensor_deployment_details</span><span class="p">:</span>
+            <span class="n">sensor_deployment_record</span><span class="o">.</span><span class="n">sensor_readings</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">deployment_state</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the current status of the deployment. Options are:</span>
+<span class="sd">        (1, &#39;Details Incomplete&#39;)</span>
+<span class="sd">        (2, &#39;Deployment not running&#39;)</span>
+<span class="sd">        (3, &#39;Deployment Running&#39;)</span>
+<span class="sd">        (4, &#39;Deployment Ended&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deployment_states</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">end_date__isnull</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Deployment Ended&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">hub</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Deployment Running&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Deployment not running&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Details Incomplete&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DeploymentState"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentState">[docs]</a><span class="k">class</span> <span class="nc">DeploymentState</span><span class="p">(</span><span class="n">TimeStampedModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Records when a deployment started and when it ended.</span>
+<span class="sd">    The start date is found via the built-in created field (i.e. when the DeploymentState was created).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">deployment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s1">&#39;deployments.Deployment&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;deployment_states&#39;</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Deployment state for </span><span class="si">{deployment}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">deployment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">deployment</span><span class="o">.</span><span class="n">client_name</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Michael O. Jewell.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

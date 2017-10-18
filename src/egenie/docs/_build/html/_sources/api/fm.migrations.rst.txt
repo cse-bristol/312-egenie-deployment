@@ -1,0 +1,22 @@
+fm\.migrations package
+======================
+
+Submodules
+----------
+
+fm\.migrations\.0001\_initial module
+------------------------------------
+
+.. automodule:: fm.migrations.0001_initial
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: fm.migrations
+    :members:
+    :undoc-members:
+    :show-inheritance:

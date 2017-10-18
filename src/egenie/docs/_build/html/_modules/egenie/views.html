@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>egenie.views &mdash; eGenie 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="eGenie 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> eGenie
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">eGenie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#carousel-screens">Carousel Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#inner-screens">Inner Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#supporting-applications">Supporting Applications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">eGenie</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>egenie.views</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for egenie.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">TemplateView</span><span class="p">,</span> <span class="n">RedirectView</span><span class="p">,</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="k">import</span> <span class="n">CreateView</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">egenie.mixins</span> <span class="k">import</span> <span class="n">RestrictedMixin</span><span class="p">,</span> <span class="n">PlinthMixin</span><span class="p">,</span> <span class="n">AjaxableResponseMixin</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="k">import</span> <span class="n">logout</span>
+<span class="kn">from</span> <span class="nn">egenie.models</span> <span class="k">import</span> <span class="n">Participant</span><span class="p">,</span> <span class="n">Plinth</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="k">import</span> <span class="n">EmailMultiAlternatives</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponseRedirect</span><span class="p">,</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">JsonResponse</span>
+
+<span class="kn">from</span> <span class="nn">django.template.loader</span> <span class="k">import</span> <span class="n">get_template</span>
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="k">import</span> <span class="n">Context</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="RootView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RootView">[docs]</a><span class="k">class</span> <span class="nc">RootView</span><span class="p">(</span><span class="n">RedirectView</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RootView.get_redirect_url"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RootView.get_redirect_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_redirect_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;temperature&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="InfoView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.InfoView">[docs]</a><span class="k">class</span> <span class="nc">InfoView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;egenie/info.html&#39;</span>
+
+<div class="viewcode-block" id="InfoView.get_context_data"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.InfoView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">InfoView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;next&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div></div>
+
+
+<div class="viewcode-block" id="ChoiceView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.ChoiceView">[docs]</a><span class="k">class</span> <span class="nc">ChoiceView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;egenie/choice.html&#39;</span>
+
+<div class="viewcode-block" id="ChoiceView.get_context_data"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.ChoiceView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ChoiceView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;heating&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div></div>
+
+
+<div class="viewcode-block" id="RegisterView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RegisterView">[docs]</a><span class="k">class</span> <span class="nc">RegisterView</span><span class="p">(</span><span class="n">AjaxableResponseMixin</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="c1"># fields = [&#39;email&#39;]</span>
+
+<div class="viewcode-block" id="RegisterView.make_unique_username"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RegisterView.make_unique_username">[docs]</a>    <span class="k">def</span> <span class="nf">make_unique_username</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">username</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">500</span><span class="p">):</span>
+            <span class="n">new_username</span> <span class="o">=</span> <span class="n">username</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">new_username</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">new_username</span></div>
+
+<div class="viewcode-block" id="RegisterView.form_invalid"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RegisterView.form_invalid">[docs]</a>    <span class="k">def</span> <span class="nf">form_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">as_data</span><span class="p">()[</span><span class="s1">&#39;email&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">code</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="RegisterView.form_valid"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RegisterView.form_valid">[docs]</a>    <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">email</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_unique_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">make_random_password</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="n">textmail</span> <span class="o">=</span> <span class="n">get_template</span><span class="p">(</span><span class="s1">&#39;egenie/register_email.txt&#39;</span><span class="p">)</span>
+        <span class="n">htmlmail</span> <span class="o">=</span> <span class="n">get_template</span><span class="p">(</span><span class="s1">&#39;egenie/register_email.html&#39;</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">username</span><span class="p">}</span>
+        <span class="n">subject</span><span class="p">,</span> <span class="n">from_email</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="s1">&#39;Welcome to GENIE&#39;</span><span class="p">,</span> <span class="s1">&#39;mailer@e-genie.co.uk&#39;</span><span class="p">,</span> <span class="n">email</span>
+        <span class="n">text_content</span> <span class="o">=</span> <span class="n">textmail</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">html_content</span> <span class="o">=</span> <span class="n">htmlmail</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">EmailMultiAlternatives</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">text_content</span><span class="p">,</span> <span class="n">from_email</span><span class="p">,</span> <span class="p">[</span><span class="n">to</span><span class="p">])</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">attach_alternative</span><span class="p">(</span><span class="n">html_content</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">})</span></div></div>
+
+
+<div class="viewcode-block" id="SetupView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.SetupView">[docs]</a><span class="k">class</span> <span class="nc">SetupView</span><span class="p">(</span><span class="n">RestrictedMixin</span><span class="p">,</span> <span class="n">PlinthMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;egenie/setup.html&#39;</span>
+
+<div class="viewcode-block" id="SetupView.post"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.SetupView.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;setup&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;btn-reset&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">delete_cookie</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;plinthid&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;btn-update&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">plinthid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;plinthid&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plinthid</span><span class="p">:</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;plinthid&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">plinthid</span><span class="p">,</span> <span class="n">expires</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span>
+                <span class="p">)</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">365</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">response</span></div></div>
+
+
+<div class="viewcode-block" id="ApproveView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.ApproveView">[docs]</a><span class="k">class</span> <span class="nc">ApproveView</span><span class="p">(</span><span class="n">RedirectView</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ApproveView.get"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.ApproveView.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ApproveView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">participant</span> <span class="o">=</span> <span class="n">Participant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">participant</span><span class="o">.</span><span class="n">agreed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">participant</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ApproveView.get_redirect_url"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.ApproveView.get_redirect_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_redirect_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RotatingView"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RotatingView">[docs]</a><span class="k">class</span> <span class="nc">RotatingView</span><span class="p">(</span><span class="n">RestrictedMixin</span><span class="p">,</span> <span class="n">PlinthMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Rotating View &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RotatingView.get"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RotatingView.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># All rotating views use a logged out state</span>
+        <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_to_response</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="RotatingView.get_context_data"><a class="viewcode-back" href="../../api/egenie.html#egenie.views.RotatingView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">RotatingView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;onsite&#39;</span><span class="p">]:</span>
+            <span class="c1"># If we&#39;re onsite, show all 4 options.</span>
+            <span class="c1"># EC: trying to get rid of the annotation page</span>
+            <span class="c1">#SCREEN_ORDER = [&#39;alwayson&#39;, &#39;temperature&#39;, &#39;annotation&#39;, &#39;pinboard:public&#39;]</span>
+            <span class="n">SCREEN_ORDER</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">]</span>
+            <span class="c1"># SCREEN_ORDER = [&#39;alwayson&#39;, &#39;temperature&#39;,</span>
+            <span class="c1"># &#39;pinboard:public&#39;, &#39;annotation&#39;]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Otherwise skip the pinboard screen</span>
+            <span class="c1"># EC: trying to get rid of the annotation page</span>
+            <span class="c1"># SCREEN_ORDER = [&#39;alwayson&#39;, &#39;temperature&#39;, &#39;annotation&#39;]</span>
+            <span class="c1"># SCREEN_ORDER = [&#39;pinboard:public&#39;]</span>
+
+            <span class="n">SCREEN_ORDER</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">]</span>
+            <span class="c1"># SCREEN_ORDER = [&#39;alwayson&#39;, &#39;temperature&#39;, &#39;annotation&#39;]</span>
+
+        <span class="k">if</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;screen&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">SCREEN_ORDER</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">SCREEN_ORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;screen&#39;</span><span class="p">])</span>
+            <span class="n">prev_pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">next_pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">prev_pos</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">prev_pos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">SCREEN_ORDER</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">next_pos</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">SCREEN_ORDER</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">next_pos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">next_pos</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">prev_pos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;next_screen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SCREEN_ORDER</span><span class="p">[</span><span class="n">next_pos</span><span class="p">]</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;prev_screen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SCREEN_ORDER</span><span class="p">[</span><span class="n">prev_pos</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">context</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Michael O. Jewell.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

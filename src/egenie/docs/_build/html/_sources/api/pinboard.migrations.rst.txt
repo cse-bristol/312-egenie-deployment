@@ -1,0 +1,22 @@
+pinboard\.migrations package
+============================
+
+Submodules
+----------
+
+pinboard\.migrations\.0001\_initial module
+------------------------------------------
+
+.. automodule:: pinboard.migrations.0001_initial
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pinboard.migrations
+    :members:
+    :undoc-members:
+    :show-inheritance:

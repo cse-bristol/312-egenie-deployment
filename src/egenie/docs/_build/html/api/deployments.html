@@ -1,0 +1,1098 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>deployments package &mdash; eGenie 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="eGenie 0.0.1 documentation" href="../index.html"/>
+        <link rel="up" title="eGenie" href="../api.html"/>
+        <link rel="prev" title="annotations package" href="annotations.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> eGenie
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">eGenie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#carousel-screens">Carousel Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#inner-screens">Inner Screens</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html#supporting-applications">Supporting Applications</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">sensors package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubs.html">hubs package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annotations.html">annotations package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">deployments package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-deployments.admin">deployments.admin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-deployments.apps">deployments.apps module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-deployments.forms">deployments.forms module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-deployments.models">deployments.models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-deployments.urls">deployments.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-deployments.views">deployments.views module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">eGenie</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">eGenie</a> &raquo;</li>
+        
+      <li>deployments package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/deployments.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-deployments">
+<span id="deployments-package"></span><h1>deployments package<a class="headerlink" href="#module-deployments" title="Permalink to this headline">¶</a></h1>
+<p>Provides the ability to manage a <a class="reference internal" href="#deployments.models.Deployment" title="deployments.models.Deployment"><code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></a>. In essence, the physical building at which eGenie is deployed. This includes the physical address, a picture of the location, the hub which is present in the building to collect data, and additional data (such as energy costs and extra notes).</p>
+<p>A Deployment has one of four states: Incomplete (not yet ready to be put ‘live’); Not Running; Running; and Ended. Once a Deployment is ended, an ‘end date’ is stored in its <a class="reference internal" href="#deployments.models.DeploymentState" title="deployments.models.DeploymentState"><code class="xref py py-class docutils literal"><span class="pre">DeploymentState</span></code></a> so the correct readings are returned
+at any given time. If a sensor is restarted, previous readings are cleared.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="sensors.html#sensors.models.SensorDeploymentDetails" title="sensors.models.SensorDeploymentDetails"><code class="xref py py-class docutils literal"><span class="pre">SensorDeploymentDetails</span></code></a></p>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-deployments.admin">
+<span id="deployments-admin-module"></span><h2>deployments.admin module<a class="headerlink" href="#module-deployments.admin" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-deployments.apps">
+<span id="deployments-apps-module"></span><h2>deployments.apps module<a class="headerlink" href="#module-deployments.apps" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="deployments.apps.DeploymentsConfig">
+<em class="property">class </em><code class="descclassname">deployments.apps.</code><code class="descname">DeploymentsConfig</code><span class="sig-paren">(</span><em>app_name</em>, <em>app_module</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/apps.html#DeploymentsConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.apps.DeploymentsConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="attribute">
+<dt id="deployments.apps.DeploymentsConfig.name">
+<code class="descname">name</code><em class="property"> = 'deployments'</em><a class="headerlink" href="#deployments.apps.DeploymentsConfig.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployments.forms">
+<span id="deployments-forms-module"></span><h2>deployments.forms module<a class="headerlink" href="#module-deployments.forms" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="deployments.forms.DeploymentAddHubForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentAddHubForm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentAddHubForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentAddHubForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentAddHubForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentAddHubForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['hub']</em><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentAddHubForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentAddHubForm.Meta.widgets">
+<code class="descname">widgets</code><em class="property"> = {'hub': &lt;django.forms.widgets.HiddenInput object&gt;}</em><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.Meta.widgets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentAddHubForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict([('hub', &lt;django.forms.models.ModelChoiceField object&gt;)])</em><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.forms.DeploymentAddHubForm.clean_hub">
+<code class="descname">clean_hub</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentAddHubForm.clean_hub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.clean_hub" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentAddHubForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentAddHubForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentAddHubForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.forms.DeploymentCreateForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentCreateForm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentCreateForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentCreateForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentCreateForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentCreateForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentCreateForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentCreateForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['client_name', 'address_line_one', 'post_code', 'notes', 'photo', 'elec_pence_per_kwh', 'gas_pence_per_kwh']</em><a class="headerlink" href="#deployments.forms.DeploymentCreateForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentCreateForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentCreateForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentCreateForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict([('client_name', &lt;django.forms.fields.CharField object&gt;), ('address_line_one', &lt;django.forms.fields.CharField object&gt;), ('post_code', &lt;django.forms.fields.CharField object&gt;), ('notes', &lt;django.forms.fields.CharField object&gt;), ('photo', &lt;django.forms.fields.ImageField object&gt;), ('elec_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;), ('gas_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;)])</em><a class="headerlink" href="#deployments.forms.DeploymentCreateForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentCreateForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict([('gas_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;), ('elec_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;)])</em><a class="headerlink" href="#deployments.forms.DeploymentCreateForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentCreateForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentCreateForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.forms.DeploymentEndForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentEndForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentEndForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentEndForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentEndForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentEndForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentEndForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentEndForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['id']</em><a class="headerlink" href="#deployments.forms.DeploymentEndForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentEndForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentEndForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentEndForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentEndForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentEndForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentEndForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentEndForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentEndForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.forms.DeploymentEndForm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentEndForm.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentEndForm.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.forms.DeploymentRemoveHubForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentRemoveHubForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentRemoveHubForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentRemoveHubForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentRemoveHubForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentRemoveHubForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['id']</em><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentRemoveHubForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentRemoveHubForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentRemoveHubForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentRemoveHubForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.forms.DeploymentRemoveHubForm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentRemoveHubForm.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentRemoveHubForm.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.forms.DeploymentStartForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentStartForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentStartForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentStartForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentStartForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentStartForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentStartForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentStartForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['id']</em><a class="headerlink" href="#deployments.forms.DeploymentStartForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentStartForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentStartForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentStartForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentStartForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentStartForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentStartForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentStartForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentStartForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.forms.DeploymentStartForm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentStartForm.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentStartForm.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.forms.DeploymentUpdateForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentUpdateForm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentUpdateForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentUpdateForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentUpdateForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdateForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['client_name', 'address_line_one', 'post_code', 'notes', 'elec_pence_per_kwh', 'gas_pence_per_kwh']</em><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdateForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdateForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict([('client_name', &lt;django.forms.fields.CharField object&gt;), ('address_line_one', &lt;django.forms.fields.CharField object&gt;), ('post_code', &lt;django.forms.fields.CharField object&gt;), ('notes', &lt;django.forms.fields.CharField object&gt;), ('elec_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;), ('gas_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;)])</em><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdateForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict([('gas_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;), ('elec_pence_per_kwh', &lt;django.forms.fields.IntegerField object&gt;)])</em><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdateForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentUpdateForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm">
+<em class="property">class </em><code class="descclassname">deployments.forms.</code><code class="descname">DeploymentUpdatePhotoForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentUpdatePhotoForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="class">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/deployments/forms.html#DeploymentUpdatePhotoForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['photo']</em><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict([('photo', &lt;django.forms.fields.ImageField object&gt;)])</em><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.forms.DeploymentUpdatePhotoForm.media">
+<code class="descname">media</code><a class="headerlink" href="#deployments.forms.DeploymentUpdatePhotoForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployments.models">
+<span id="deployments-models-module"></span><h2>deployments.models module<a class="headerlink" href="#module-deployments.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="deployments.models.Deployment">
+<em class="property">class </em><code class="descclassname">deployments.models.</code><code class="descname">Deployment</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/models.html#Deployment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.models.Deployment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django_extensions.db.models.TimeStampedModel</span></code></p>
+<p>Records information about a deployment. While the hub might not be permanent
+(if it gets reassigned to another deployment) the sensor readings are
+permanent to this deployment via <a class="reference internal" href="sensors.html#sensors.models.SensorDeploymentDetails" title="sensors.models.SensorDeploymentDetails"><code class="xref py py-class docutils literal"><span class="pre">SensorDeploymentDetails</span></code></a>.</p>
+<dl class="exception">
+<dt id="deployments.models.Deployment.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#deployments.models.Deployment.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="deployments.models.Deployment.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#deployments.models.Deployment.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.address_line_one">
+<code class="descname">address_line_one</code><a class="headerlink" href="#deployments.models.Deployment.address_line_one" title="Permalink to this definition">¶</a></dt>
+<dd><p>The first line of the deployment’s physical address.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.client_name">
+<code class="descname">client_name</code><a class="headerlink" href="#deployments.models.Deployment.client_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The client name: might be a home owner’s name (Mrs Jones), or a company name (ABC Ltd), for example.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.deployment_states">
+<code class="descname">deployment_states</code><a class="headerlink" href="#deployments.models.Deployment.deployment_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.deploymentannotation_set">
+<code class="descname">deploymentannotation_set</code><a class="headerlink" href="#deployments.models.Deployment.deploymentannotation_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.elec_pence_per_kwh">
+<code class="descname">elec_pence_per_kwh</code><a class="headerlink" href="#deployments.models.Deployment.elec_pence_per_kwh" title="Permalink to this definition">¶</a></dt>
+<dd><p>How much electricity costs per KWh in the location.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.Deployment.end">
+<code class="descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/models.html#Deployment.end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.models.Deployment.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>End this deployment. The end_date is set to the current date and time, any sensors that are active in the deployment are deactivated, and the hub is cleared for use in other deployments.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.gas_pence_per_kwh">
+<code class="descname">gas_pence_per_kwh</code><a class="headerlink" href="#deployments.models.Deployment.gas_pence_per_kwh" title="Permalink to this definition">¶</a></dt>
+<dd><p>How much gas costs per KWh in the location.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.Deployment.get_next_by_created">
+<code class="descname">get_next_by_created</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.Deployment.get_next_by_created" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.Deployment.get_next_by_modified">
+<code class="descname">get_next_by_modified</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.Deployment.get_next_by_modified" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.Deployment.get_previous_by_created">
+<code class="descname">get_previous_by_created</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.Deployment.get_previous_by_created" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.Deployment.get_previous_by_modified">
+<code class="descname">get_previous_by_modified</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.Deployment.get_previous_by_modified" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.hub">
+<code class="descname">hub</code><a class="headerlink" href="#deployments.models.Deployment.hub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hub that has been deployed at the site. This is optional until the deployment needs to be started.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.hub_id">
+<code class="descname">hub_id</code><a class="headerlink" href="#deployments.models.Deployment.hub_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.id">
+<code class="descname">id</code><a class="headerlink" href="#deployments.models.Deployment.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.notes">
+<code class="descname">notes</code><a class="headerlink" href="#deployments.models.Deployment.notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any notes that go along with the deployment.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#deployments.models.Deployment.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.pairs">
+<code class="descname">pairs</code><a class="headerlink" href="#deployments.models.Deployment.pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>A set of sensor/channel pairs associated with this deployment. e.g. temperature_1 / temperature.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Check that this is actually used.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.photo">
+<code class="descname">photo</code><a class="headerlink" href="#deployments.models.Deployment.photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>A photo to represent the deployment - might be a picture of a room or a building.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.plinth_set">
+<code class="descname">plinth_set</code><a class="headerlink" href="#deployments.models.Deployment.plinth_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.post_code">
+<code class="descname">post_code</code><a class="headerlink" href="#deployments.models.Deployment.post_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>The deployment’s postcode.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.running">
+<code class="descname">running</code><a class="headerlink" href="#deployments.models.Deployment.running" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the deployment is running (i.e. does not have <cite>end_date</cite> set), False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.sensor_details">
+<code class="descname">sensor_details</code><a class="headerlink" href="#deployments.models.Deployment.sensor_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.Deployment.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/models.html#Deployment.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.models.Deployment.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the deployment if not already running. Creates a new DeploymentState, and clears any existing sensor readings. Raises a ValueError if the Deployment is running already.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.Deployment.status">
+<code class="descname">status</code><a class="headerlink" href="#deployments.models.Deployment.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current status of the deployment. Options are:
+(1, ‘Details Incomplete’)
+(2, ‘Deployment not running’)
+(3, ‘Deployment Running’)
+(4, ‘Deployment Ended’)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.models.DeploymentState">
+<em class="property">class </em><code class="descclassname">deployments.models.</code><code class="descname">DeploymentState</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/models.html#DeploymentState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.models.DeploymentState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django_extensions.db.models.TimeStampedModel</span></code></p>
+<p>Records when a deployment started and when it ended.
+The start date is found via the built-in created field (i.e. when the DeploymentState was created).</p>
+<dl class="exception">
+<dt id="deployments.models.DeploymentState.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#deployments.models.DeploymentState.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="deployments.models.DeploymentState.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#deployments.models.DeploymentState.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.DeploymentState.deployment">
+<code class="descname">deployment</code><a class="headerlink" href="#deployments.models.DeploymentState.deployment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.DeploymentState.deployment_id">
+<code class="descname">deployment_id</code><a class="headerlink" href="#deployments.models.DeploymentState.deployment_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.DeploymentState.end_date">
+<code class="descname">end_date</code><a class="headerlink" href="#deployments.models.DeploymentState.end_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.DeploymentState.get_next_by_created">
+<code class="descname">get_next_by_created</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.DeploymentState.get_next_by_created" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.DeploymentState.get_next_by_modified">
+<code class="descname">get_next_by_modified</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.DeploymentState.get_next_by_modified" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.DeploymentState.get_previous_by_created">
+<code class="descname">get_previous_by_created</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.DeploymentState.get_previous_by_created" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.models.DeploymentState.get_previous_by_modified">
+<code class="descname">get_previous_by_modified</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#deployments.models.DeploymentState.get_previous_by_modified" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.DeploymentState.id">
+<code class="descname">id</code><a class="headerlink" href="#deployments.models.DeploymentState.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.models.DeploymentState.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#deployments.models.DeploymentState.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-deployments.urls">
+<span id="deployments-urls-module"></span><h2>deployments.urls module<a class="headerlink" href="#module-deployments.urls" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-deployments.views">
+<span id="deployments-views-module"></span><h2>deployments.views module<a class="headerlink" href="#module-deployments.views" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="deployments.views.DeploymentAddHubView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentAddHubView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentAddHubView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentAddHubView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.UpdateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentAddHubView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentAddHubView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentAddHubForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentAddHubView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentAddHubView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentAddHubView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentAddHubView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentAddHubView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentCreateView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentCreateView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentCreateView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentCreateView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <a class="reference internal" href="egenie.html#egenie.mixins.BackButtonMixin" title="egenie.mixins.BackButtonMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.BackButtonMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.CreateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentCreateView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentCreateView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentCreateForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentCreateView.get_back_url">
+<code class="descname">get_back_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentCreateView.get_back_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentCreateView.get_back_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentCreateView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentCreateView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentCreateView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentCreateView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentCreateView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentCreateView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'deployments/deployment_create.html'</em><a class="headerlink" href="#deployments.views.DeploymentCreateView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentDetailView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentDetailView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentDetailView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentDetailView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.detail.DetailView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentDetailView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentDetailView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentDetailView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'deployments/deployment_fragment.html'</em><a class="headerlink" href="#deployments.views.DeploymentDetailView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentEndView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentEndView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentEndView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentEndView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.UpdateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentEndView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentEndView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentEndForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentEndView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentEndView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentEndView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentEndView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentEndView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentListView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentListView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentListView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentListView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.list.ListView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentListView.context_object_name">
+<code class="descname">context_object_name</code><em class="property"> = 'deployments'</em><a class="headerlink" href="#deployments.views.DeploymentListView.context_object_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentListView.get_context_data">
+<code class="descname">get_context_data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentListView.get_context_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentListView.get_context_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentListView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentListView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentListView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'deployments/deployment_list.html'</em><a class="headerlink" href="#deployments.views.DeploymentListView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentRemoveHubView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentRemoveHubView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentRemoveHubView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentRemoveHubView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.UpdateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentRemoveHubView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentRemoveHubView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentRemoveHubForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentRemoveHubView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentRemoveHubView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentRemoveHubView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentRemoveHubView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentRemoveHubView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentStartView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentStartView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentStartView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentStartView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.UpdateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentStartView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentStartView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentStartForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentStartView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentStartView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentStartView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentStartView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentStartView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentUpdatePhotoView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentUpdatePhotoView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentUpdatePhotoView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentUpdatePhotoView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.UpdateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentUpdatePhotoView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentUpdatePhotoView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentUpdatePhotoForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentUpdatePhotoView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentUpdatePhotoView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentUpdatePhotoView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentUpdatePhotoView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentUpdatePhotoView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="deployments.views.DeploymentUpdateView">
+<em class="property">class </em><code class="descclassname">deployments.views.</code><code class="descname">DeploymentUpdateView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentUpdateView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentUpdateView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="egenie.html#egenie.mixins.LoginRequiredMixin" title="egenie.mixins.LoginRequiredMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.LoginRequiredMixin</span></code></a>, <a class="reference internal" href="egenie.html#egenie.mixins.BackButtonMixin" title="egenie.mixins.BackButtonMixin"><code class="xref py py-class docutils literal"><span class="pre">egenie.mixins.BackButtonMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.edit.UpdateView</span></code></p>
+<dl class="attribute">
+<dt id="deployments.views.DeploymentUpdateView.context_object_name">
+<code class="descname">context_object_name</code><em class="property"> = 'deployment'</em><a class="headerlink" href="#deployments.views.DeploymentUpdateView.context_object_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentUpdateView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#deployments.views.DeploymentUpdateView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">DeploymentUpdateForm</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentUpdateView.get_back_url">
+<code class="descname">get_back_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentUpdateView.get_back_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentUpdateView.get_back_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentUpdateView.get_context_data">
+<code class="descname">get_context_data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentUpdateView.get_context_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentUpdateView.get_context_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deployments.views.DeploymentUpdateView.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deployments/views.html#DeploymentUpdateView.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deployments.views.DeploymentUpdateView.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentUpdateView.model">
+<code class="descname">model</code><a class="headerlink" href="#deployments.views.DeploymentUpdateView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deployments.views.DeploymentUpdateView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'deployments/deployment_update.html'</em><a class="headerlink" href="#deployments.views.DeploymentUpdateView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="annotations.html" class="btn btn-neutral" title="annotations package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Michael O. Jewell.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

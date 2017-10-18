@@ -1,0 +1,22 @@
+deployments\.migrations package
+===============================
+
+Submodules
+----------
+
+deployments\.migrations\.0001\_initial module
+---------------------------------------------
+
+.. automodule:: deployments.migrations.0001_initial
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: deployments.migrations
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,10 @@
+temperature\.migrations package
+===============================
+
+Module contents
+---------------
+
+.. automodule:: temperature.migrations
+    :members:
+    :undoc-members:
+    :show-inheritance:

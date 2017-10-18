@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>deployments.forms &mdash; eGenie 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="eGenie 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> eGenie
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">eGenie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#carousel-screens">Carousel Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#inner-screens">Inner Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#supporting-applications">Supporting Applications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">eGenie</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>deployments.forms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for deployments.forms</h1><div class="highlight"><pre>
+<span></span><span class="c1"># This file is part of e-genie</span>
+<span class="c1">#</span>
+<span class="c1"># e-genie is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># e-genie is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
+<span class="c1"># along with e-genie.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="k">import</span> <span class="n">forms</span>
+
+<span class="kn">from</span> <span class="nn">deployments.models</span> <span class="k">import</span> <span class="n">Deployment</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.helper</span> <span class="k">import</span> <span class="n">FormHelper</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.layout</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.bootstrap</span> <span class="k">import</span> <span class="n">StrictButton</span><span class="p">,</span> <span class="n">FormActions</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
+
+
+<div class="viewcode-block" id="DeploymentAddHubForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentAddHubForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentAddHubForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DeploymentAddHubForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentAddHubForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hub&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;hub&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">()</span>
+        <span class="p">}</span></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeploymentAddHubForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;hub&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Hub Identifier&quot;</span>
+
+<div class="viewcode-block" id="DeploymentAddHubForm.clean_hub"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentAddHubForm.clean_hub">[docs]</a>    <span class="k">def</span> <span class="nf">clean_hub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;hub&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">hub</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;There is already a hub assigned to this deployment.&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">old_deployment</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">deployment</span>
+            <span class="n">old_deployment</span><span class="o">.</span><span class="n">hub</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">old_deployment</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="n">Deployment</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">return</span> <span class="n">hub</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentCreateForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentCreateForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentCreateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">gas_pence_per_kwh</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gas Cost (pence per KWh)&#39;</span><span class="p">)</span>
+    <span class="n">elec_pence_per_kwh</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Electricity Cost (pence per KWh)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeploymentCreateForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span> <span class="o">=</span> <span class="n">FormHelper</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">form_class</span> <span class="o">=</span> <span class="s1">&#39;form-horizontal&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">label_class</span> <span class="o">=</span> <span class="s1">&#39;col-lg-2&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">field_class</span> <span class="o">=</span> <span class="s1">&#39;col-lg-8&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">form_method</span> <span class="o">=</span> <span class="s1">&#39;post&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">form_action</span> <span class="o">=</span> <span class="s1">&#39;deployments:create&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">Layout</span><span class="p">(</span>
+            <span class="n">Fieldset</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;client_name&#39;</span><span class="p">,</span> <span class="s1">&#39;address_line_one&#39;</span><span class="p">,</span> <span class="s1">&#39;post_code&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="s1">&#39;elec_pence_per_kwh&#39;</span><span class="p">,</span> <span class="s1">&#39;gas_pence_per_kwh&#39;</span><span class="p">),</span>
+            <span class="n">FormActions</span><span class="p">(</span><span class="n">Submit</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;Save Changes&#39;</span><span class="p">))</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DeploymentCreateForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentCreateForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;client_name&#39;</span><span class="p">,</span> <span class="s1">&#39;address_line_one&#39;</span><span class="p">,</span> <span class="s1">&#39;post_code&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="s1">&#39;elec_pence_per_kwh&#39;</span><span class="p">,</span> <span class="s1">&#39;gas_pence_per_kwh&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentEndForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentEndForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentEndForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DeploymentEndForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentEndForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span></div>
+
+<div class="viewcode-block" id="DeploymentEndForm.save"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentEndForm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">end</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentRemoveHubForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentRemoveHubForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentRemoveHubForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DeploymentRemoveHubForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentRemoveHubForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span></div>
+
+<div class="viewcode-block" id="DeploymentRemoveHubForm.save"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentRemoveHubForm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">deployment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span>
+
+        <span class="n">deployment</span><span class="o">.</span><span class="n">hub</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">deployment</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentStartForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentStartForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentStartForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DeploymentStartForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentStartForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span></div>
+
+<div class="viewcode-block" id="DeploymentStartForm.save"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentStartForm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentUpdatePhotoForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentUpdatePhotoForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentUpdatePhotoForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DeploymentUpdatePhotoForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentUpdatePhotoForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentUpdateForm"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentUpdateForm">[docs]</a><span class="k">class</span> <span class="nc">DeploymentUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">gas_pence_per_kwh</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gas Cost (pence per KWh)&#39;</span><span class="p">)</span>
+    <span class="n">elec_pence_per_kwh</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Electricity Cost (pence per KWh)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeploymentUpdateForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span> <span class="o">=</span> <span class="n">FormHelper</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">form_class</span> <span class="o">=</span> <span class="s1">&#39;form-horizontal&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">label_class</span> <span class="o">=</span> <span class="s1">&#39;col-lg-2&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">field_class</span> <span class="o">=</span> <span class="s1">&#39;col-lg-8&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">form_method</span> <span class="o">=</span> <span class="s1">&#39;post&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">Layout</span><span class="p">(</span>
+            <span class="n">Fieldset</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;client_name&#39;</span><span class="p">,</span> <span class="s1">&#39;address_line_one&#39;</span><span class="p">,</span> <span class="s1">&#39;post_code&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;elec_pence_per_kwh&#39;</span><span class="p">,</span> <span class="s1">&#39;gas_pence_per_kwh&#39;</span><span class="p">),</span>
+            <span class="n">FormActions</span><span class="p">(</span><span class="n">Submit</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="s1">&#39;Save Changes&#39;</span><span class="p">))</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DeploymentUpdateForm.Meta"><a class="viewcode-back" href="../../api/deployments.html#deployments.forms.DeploymentUpdateForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;client_name&#39;</span><span class="p">,</span> <span class="s1">&#39;address_line_one&#39;</span><span class="p">,</span> <span class="s1">&#39;post_code&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;elec_pence_per_kwh&#39;</span><span class="p">,</span> <span class="s1">&#39;gas_pence_per_kwh&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Michael O. Jewell.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pinboard.views &mdash; eGenie 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="eGenie 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> eGenie
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">eGenie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#carousel-screens">Carousel Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#inner-screens">Inner Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#supporting-applications">Supporting Applications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">eGenie</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pinboard.views</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pinboard.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">TemplateView</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.utils.decorators</span> <span class="k">import</span> <span class="n">method_decorator</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="k">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
+
+
+<span class="kn">from</span> <span class="nn">spirit.comment.forms</span> <span class="k">import</span> <span class="n">CommentForm</span>
+<span class="kn">from</span> <span class="nn">spirit.comment.utils</span> <span class="k">import</span> <span class="n">comment_posted</span>
+<span class="kn">from</span> <span class="nn">spirit.topic.forms</span> <span class="k">import</span> <span class="n">TopicForm</span>
+<span class="kn">from</span> <span class="nn">spirit.core.utils</span> <span class="k">import</span> <span class="n">markdown</span><span class="p">,</span> <span class="n">paginator</span><span class="p">,</span> <span class="n">render_form_errors</span><span class="p">,</span> <span class="n">json_response</span>
+
+<span class="kn">from</span> <span class="nn">spirit.category.models</span> <span class="k">import</span> <span class="n">Category</span>
+<span class="kn">from</span> <span class="nn">spirit.topic.models</span> <span class="k">import</span> <span class="n">Topic</span>
+<span class="kn">from</span> <span class="nn">spirit.comment.models</span> <span class="k">import</span> <span class="n">Comment</span>
+<span class="kn">from</span> <span class="nn">spirit.core.utils.paginator</span> <span class="k">import</span> <span class="n">yt_paginate</span>
+
+<span class="kn">from</span> <span class="nn">egenie.decorators</span> <span class="k">import</span> <span class="n">agree_required</span>
+<span class="kn">from</span> <span class="nn">egenie.views</span> <span class="k">import</span> <span class="n">RotatingView</span>
+<span class="kn">from</span> <span class="nn">pinboard.models</span> <span class="k">import</span> <span class="n">PinboardPhoto</span><span class="p">,</span> <span class="n">UserPinboardProfile</span><span class="p">,</span> <span class="n">CommentPhoto</span><span class="p">,</span> <span class="n">CommentAuthor</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="k">import</span> <span class="n">get_user_model</span>
+
+
+<span class="nd">@login_required</span>
+<span class="nd">@agree_required</span>
+<span class="k">def</span> <span class="nf">comment_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Comment</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">Comment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_removed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">remaining</span> <span class="o">=</span> <span class="n">Comment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="n">comment</span><span class="o">.</span><span class="n">topic</span><span class="p">,</span> <span class="n">is_removed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">remaining</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">category</span> <span class="o">=</span> <span class="n">comment</span><span class="o">.</span><span class="n">topic</span><span class="o">.</span><span class="n">category</span>
+        <span class="k">if</span> <span class="n">category</span><span class="o">.</span><span class="n">slug</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">category</span><span class="o">.</span><span class="n">slug</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">PRIVATE_CATEGORY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:private&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;spirit:topic:detail&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">comment</span><span class="o">.</span><span class="n">topic</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="comment_publish"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.comment_publish">[docs]</a><span class="k">def</span> <span class="nf">comment_publish</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">topic_id</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+        <span class="n">Topic</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">opened</span><span class="p">(),</span>
+        <span class="n">pk</span><span class="o">=</span><span class="n">topic_id</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;anonymous&#39;</span><span class="p">)</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">topic</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="n">category</span> <span class="o">=</span> <span class="n">topic</span><span class="o">.</span><span class="n">category</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">author</span><span class="p">:</span>
+                <span class="n">comment_author</span> <span class="o">=</span> <span class="n">CommentAuthor</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">)</span>
+                <span class="n">comment_author</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="n">comment_posted</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span> <span class="n">mentions</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">mentions</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">category</span><span class="o">.</span><span class="n">slug</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">category</span><span class="o">.</span><span class="n">slug</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">PRIVATE_CATEGORY</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:private&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">initial</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">pk</span><span class="p">:</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+                <span class="n">Comment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">for_access</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="n">markdown</span><span class="o">.</span><span class="n">quotify</span><span class="p">(</span><span class="n">comment</span><span class="o">.</span><span class="n">comment</span><span class="p">,</span> <span class="n">comment</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+            <span class="n">initial</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="n">quote</span><span class="p">,</span> <span class="p">}</span>
+
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">initial</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s1">&#39;topic&#39;</span><span class="p">:</span> <span class="n">topic</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;spirit/comment/publish.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="topic_publish"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.topic_publish">[docs]</a><span class="k">def</span> <span class="nf">topic_publish</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">category_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">category_id</span><span class="p">:</span>
+        <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">visible</span><span class="p">(),</span>
+                          <span class="n">pk</span><span class="o">=</span><span class="n">category_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+
+        <span class="c1"># no longer using user auth so set user to anonymous</span>
+        <span class="c1"># author name entered later from form</span>
+        <span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;anonymous&#39;</span><span class="p">)</span>
+
+        <span class="n">form</span> <span class="o">=</span> <span class="n">TopicForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="n">cform</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="n">photo_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(),</span> <span class="n">cform</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()]):</span>  <span class="c1"># TODO: test!</span>
+
+            <span class="c1"># wrap in transaction.atomic?</span>
+            <span class="n">topic</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">topic</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+            <span class="n">topic</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">cform</span><span class="o">.</span><span class="n">topic</span> <span class="o">=</span> <span class="n">topic</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="n">cform</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">photo_id</span><span class="p">:</span>
+                <span class="n">photo</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">PinboardPhoto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">photo_id</span><span class="p">)</span>
+                <span class="n">comment_photo</span> <span class="o">=</span> <span class="n">CommentPhoto</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span> <span class="n">photo</span><span class="o">=</span><span class="n">photo</span><span class="p">)</span>
+                <span class="n">comment_photo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">author</span><span class="p">:</span>
+                <span class="n">comment_author</span> <span class="o">=</span> <span class="n">CommentAuthor</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">)</span>
+                <span class="n">comment_author</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="n">comment_posted</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span> <span class="n">mentions</span><span class="o">=</span><span class="n">cform</span><span class="o">.</span><span class="n">mentions</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">topic</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">slug</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">topic</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">slug</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">PRIVATE_CATEGORY</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:private&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">category_id</span><span class="p">:</span>
+            <span class="n">slug</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span><span class="p">)</span>
+            <span class="n">category_id</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">TopicForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="n">category_id</span><span class="p">,</span> <span class="p">})</span>
+        <span class="n">cform</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s1">&#39;cform&#39;</span><span class="p">:</span> <span class="n">cform</span><span class="p">,</span>
+        <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="n">category_id</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">photo_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">photo_id</span><span class="p">:</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;photo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">PinboardPhoto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">photo_id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;spirit/topic/publish.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_filtered_posts"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.get_filtered_posts">[docs]</a><span class="k">def</span> <span class="nf">get_filtered_posts</span><span class="p">(</span><span class="n">topics</span><span class="p">):</span>
+    <span class="n">filtered</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">:</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="n">Comment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">topic</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">is_removed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">comments</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">author</span> <span class="o">=</span> <span class="n">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">comment_author</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">author</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">author</span><span class="p">)</span>
+            <span class="n">filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">filtered</span></div>
+
+
+<div class="viewcode-block" id="post"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.post">[docs]</a><span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pinboard/post.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_photo"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.delete_photo">[docs]</a><span class="k">def</span> <span class="nf">delete_photo</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="n">photo</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">UserPinboardPhoto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">photo</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PinboardView"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.PinboardView">[docs]</a><span class="k">class</span> <span class="nc">PinboardView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;pinboard/index.html&#39;</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span>
+
+<div class="viewcode-block" id="PinboardView.dispatch"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.PinboardView.dispatch">[docs]</a>    <span class="nd">@method_decorator</span><span class="p">(</span><span class="n">agree_required</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PinboardView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PinboardView.get_context_data"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.PinboardView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PinboardView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span>
+            <span class="n">screen</span><span class="o">=</span><span class="s1">&#39;pinboard:public&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">recent_topics</span> <span class="o">=</span> <span class="n">Topic</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">category__slug</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-last_active&#39;</span><span class="p">)</span>
+
+        <span class="n">photos</span> <span class="o">=</span> <span class="n">PinboardPhoto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created&#39;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_filtered_posts</span><span class="p">(</span><span class="n">recent_topics</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;photos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">photos</span>
+
+        <span class="c1">#context[&#39;profile&#39;] = UserPinboardProfile.objects.filter(user=self.request.user)[0]</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span>
+        <span class="k">return</span> <span class="n">context</span></div></div>
+
+
+<div class="viewcode-block" id="DigestView"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.DigestView">[docs]</a><span class="k">class</span> <span class="nc">DigestView</span><span class="p">(</span><span class="n">RotatingView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;pinboard/digest.html&#39;</span>
+
+<div class="viewcode-block" id="DigestView.get_context_data"><a class="viewcode-back" href="../../api/pinboard.html#pinboard.views.DigestView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">DigestView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span>
+            <span class="n">screen</span><span class="o">=</span><span class="s1">&#39;pinboard:digest&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Base it on topics</span>
+        <span class="n">recent_topics</span> <span class="o">=</span> <span class="n">Topic</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">category__slug</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-last_active&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">popular_topics</span> <span class="o">=</span> <span class="n">Topic</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category__slug</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">PUBLIC_CATEGORY</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+            <span class="s1">&#39;-view_count&#39;</span><span class="p">,</span> <span class="s1">&#39;-last_active&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">fm_topics</span> <span class="o">=</span> <span class="n">Topic</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">category__slug</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">PRIVATE_CATEGORY</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-last_active&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;recent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_filtered_posts</span><span class="p">(</span><span class="n">recent_topics</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;popular&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_filtered_posts</span><span class="p">(</span><span class="n">popular_topics</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;electricity&#39;</span>
+
+        <span class="k">return</span> <span class="n">context</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Michael O. Jewell.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

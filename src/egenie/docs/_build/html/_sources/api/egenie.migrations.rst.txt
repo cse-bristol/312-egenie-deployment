@@ -1,0 +1,30 @@
+egenie\.migrations package
+==========================
+
+Submodules
+----------
+
+egenie\.migrations\.0001\_initial module
+----------------------------------------
+
+.. automodule:: egenie.migrations.0001_initial
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+egenie\.migrations\.0002\_plinth\_deployment module
+---------------------------------------------------
+
+.. automodule:: egenie.migrations.0002_plinth_deployment
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: egenie.migrations
+    :members:
+    :undoc-members:
+    :show-inheritance:

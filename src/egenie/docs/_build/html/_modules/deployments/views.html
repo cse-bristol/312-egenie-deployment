@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>deployments.views &mdash; eGenie 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="eGenie 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> eGenie
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">eGenie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#carousel-screens">Carousel Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#inner-screens">Inner Screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#supporting-applications">Supporting Applications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">eGenie</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>deployments.views</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for deployments.views</h1><div class="highlight"><pre>
+<span></span><span class="c1"># This file is part of e-genie</span>
+<span class="c1">#</span>
+<span class="c1"># e-genie is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># e-genie is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
+<span class="c1"># along with e-genie.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">django.core</span> <span class="k">import</span> <span class="n">serializers</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">CreateView</span><span class="p">,</span> <span class="n">ListView</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">,</span> <span class="n">DetailView</span>
+
+<span class="kn">from</span> <span class="nn">egenie.mixins</span> <span class="k">import</span> <span class="n">BackButtonMixin</span><span class="p">,</span> <span class="n">LoginRequiredMixin</span>
+<span class="kn">from</span> <span class="nn">hubs.models</span> <span class="k">import</span> <span class="n">Hub</span>
+<span class="kn">from</span> <span class="nn">sd_store.models</span> <span class="k">import</span> <span class="n">Sensor</span>
+<span class="kn">from</span> <span class="nn">sensors.forms</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">SensorDeploymentDetailsCreateForm</span><span class="p">,</span> <span class="n">SensorDeploymentDetailsDisableForm</span><span class="p">,</span>
+    <span class="n">SensorDeploymentLocationUpdateForm</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">deployments.forms</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">DeploymentAddHubForm</span><span class="p">,</span> <span class="n">DeploymentCreateForm</span><span class="p">,</span> <span class="n">DeploymentEndForm</span><span class="p">,</span>
+    <span class="n">DeploymentRemoveHubForm</span><span class="p">,</span> <span class="n">DeploymentStartForm</span><span class="p">,</span> <span class="n">DeploymentUpdateForm</span><span class="p">,</span>
+    <span class="n">DeploymentUpdatePhotoForm</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">deployments.models</span> <span class="k">import</span> <span class="n">Deployment</span>
+
+
+<div class="viewcode-block" id="DeploymentAddHubView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentAddHubView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentAddHubView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentAddHubForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+
+<div class="viewcode-block" id="DeploymentAddHubView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentAddHubView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;deployments:update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">],))</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentCreateView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentCreateView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentCreateView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">BackButtonMixin</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentCreateForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;deployments/deployment_create.html&#39;</span>
+
+<div class="viewcode-block" id="DeploymentCreateView.get_back_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentCreateView.get_back_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_back_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeploymentCreateView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentCreateView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;deployments:update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">id</span><span class="p">,))</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentEndView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentEndView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentEndView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentEndForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+
+<div class="viewcode-block" id="DeploymentEndView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentEndView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentListView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentListView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;deployments&#39;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;deployments/deployment_list.html&#39;</span>
+
+<div class="viewcode-block" id="DeploymentListView.get_context_data"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentListView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">DeploymentListView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ended_deployments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">deployments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">deployment</span> <span class="ow">in</span> <span class="n">Deployment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">deployment</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">ended_deployments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deployment</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">deployments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deployment</span><span class="p">)</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;ended_deployments&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ended_deployments</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;deployments&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">deployments</span>
+        <span class="k">return</span> <span class="n">context</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentRemoveHubView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentRemoveHubView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentRemoveHubView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentRemoveHubForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+
+<div class="viewcode-block" id="DeploymentRemoveHubView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentRemoveHubView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;deployments:update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">],))</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentStartView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentStartView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentStartView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentStartForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+
+<div class="viewcode-block" id="DeploymentStartView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentStartView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentUpdatePhotoView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentUpdatePhotoView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentUpdatePhotoView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentUpdatePhotoForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+
+<div class="viewcode-block" id="DeploymentUpdatePhotoView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentUpdatePhotoView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;deployments:update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">],))</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentUpdateView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentUpdateView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentUpdateView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">BackButtonMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;deployment&#39;</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">DeploymentUpdateForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;deployments/deployment_update.html&#39;</span>
+
+<div class="viewcode-block" id="DeploymentUpdateView.get_back_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentUpdateView.get_back_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_back_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeploymentUpdateView.get_context_data"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentUpdateView.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">DeploymentUpdateView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">deployment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;update_photo_form&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeploymentUpdatePhotoForm</span><span class="p">(</span>
+            <span class="n">instance</span><span class="o">=</span><span class="n">deployment</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">deployment</span><span class="o">.</span><span class="n">hub</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;remove_hub_form&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeploymentRemoveHubForm</span><span class="p">(</span>
+                <span class="n">instance</span><span class="o">=</span><span class="n">deployment</span><span class="p">)</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;add_sensor_form&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SensorDeploymentDetailsCreateForm</span><span class="p">(</span>
+                <span class="n">initial</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;deployment&#39;</span><span class="p">:</span> <span class="n">deployment</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">deployment</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">context</span><span class="p">[</span>
+                    <span class="s1">&#39;sensor_update_location_form&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SensorDeploymentLocationUpdateForm</span><span class="p">()</span>
+                <span class="n">context</span><span class="p">[</span><span class="s1">&#39;sensor_disable_form&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SensorDeploymentDetailsDisableForm</span><span class="p">(</span>
+                    <span class="n">initial</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;add_hub_form&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeploymentAddHubForm</span><span class="p">(</span>
+                <span class="n">instance</span><span class="o">=</span><span class="n">deployment</span><span class="p">)</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;hubs_json&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span>
+            <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">Hub</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">deployment</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span> <span class="n">fields</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">))</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;sensors_json&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span>
+            <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">Sensor</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span>
+                <span class="n">deployment_details__active</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;mac&#39;</span><span class="p">))</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">form_action</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span>
+            <span class="s1">&#39;deployments:update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">deployment</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">context</span></div>
+
+<div class="viewcode-block" id="DeploymentUpdateView.get_success_url"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentUpdateView.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeploymentDetailView"><a class="viewcode-back" href="../../api/deployments.html#deployments.views.DeploymentDetailView">[docs]</a><span class="k">class</span> <span class="nc">DeploymentDetailView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Deployment</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;deployments/deployment_fragment.html&#39;</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Michael O. Jewell.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
