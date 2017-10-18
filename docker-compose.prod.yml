@@ -16,13 +16,13 @@ services:
     links:
       - db
     volumes:
-      - ./src/egenie:/app
       - /media
-      - ./volumes/static:/static
+      - /static
     environment:
       - DJANGO_SETTINGS_MODULE=egenie.settings.production
     env_file: env
       
+
   webserver:
     restart: always
     build: src/nginx
@@ -32,8 +32,7 @@ services:
     volumes_from:
       - app
     volumes:
-      - ./volumes/static:/static
       - /media
-
+      - /static
 volumes:
   mysqldata:
