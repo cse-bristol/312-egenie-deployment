@@ -1,14 +1,10 @@
-FROM python:3
-ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
-WORKDIR /code
-RUN apt-get update && apt-get install -y \
-  python3-dev \
-  libmysqlclient-dev
+FROM python:alpine
 
-ADD requirements.txt /code/
-RUN pip install -r requirements.txt
-ADD . /code/
+RUN apk --update add build-base jpeg-dev zlib-dev mariadb-client-libs linux-headers git mariadb-dev libmagic
+
+COPY requirements.txt /app/
+RUN pip3 install -r /app/requirements.txt
 
 RUN mkdir -p /media/
+
 CMD /app/uwsgi.sh
