@@ -3,44 +3,37 @@ version: '2'
 services:
   db:
     image: mysql:5.7
-    volumes:
-      - db_data:/var/lib/mysql
     restart: always
+    volumes:
+      - ./volumes/db_data:/var/lib/mysql
     env_file: env
 
+
   app:
-    build: src/egenie 
     restart: always
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
+    build: src/egenie 
+    container_name: app
+    links:
       - db
+    volumes:
+      - ./src/egenie:/app
+      - /media
+      - ./volumes/static:/static
     environment:
       - DJANGO_SETTINGS_MODULE=egenie.settings.production
     env_file: env
-    volumes:
-      - ./src/egenie:/egenie
-      - /media
-      - /static
-    
-  web:
+      
+  nginx:
     restart: always
     image: nginx:alpine
-    container_name: egenie_web
+    container_name: nginx
     ports:
       - "80:80"
-      - "443:443"
-    links:
-      - app
-    volumes:
-      - ./src/conf/nginx${CONF_TAG}.conf:/etc/nginx/nginx.conf:ro
-      - ./cert/certs:/cert
-      - ./src/www:/www
     volumes_from:
       - app
-
-volumes:
-  db_data:
+    volumes:
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - ./src/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./volumes/static:/static
+      - /media

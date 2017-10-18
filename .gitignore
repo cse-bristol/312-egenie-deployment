@@ -1,9 +1,11 @@
-env
+/env
 *.pyc
 secure.py
 .DS_Store
-venv
-src/egenie/docs/_build
-src/egenie/docs/_static
-src/egenie/egenie/db.sqlite3
-src/egenie/src
+/venv
+/src/egenie/docs/_build
+/src/egenie/docs/_static
+/src/egenie/egenie/db.sqlite3
+/src/egenie/src
+/cert/
+/volumes/

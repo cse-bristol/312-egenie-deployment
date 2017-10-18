@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+      
+  nginx:
+    ports:
+      - "443:443"
+    volumes:
+      - ./cert/certs:/cert
+      - ./src/conf/nginx-ssl.conf:/etc/nginx/nginx.conf:ro
+
+  cert:
+      build: src/cert
+      links:
+          - nginx
+      volumes:
+          - /var/run/docker.sock:/tmp/docker.sock
+          - ./cert:/etc/letsencrypt
+      volumes_from:
+          - nginx
+      environment:
+          - CHECK_FREQ=10
+          - SERVER_CONTAINER=nginx
+      env_file: env
