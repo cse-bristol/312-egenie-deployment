@@ -1,8 +1,8 @@
 [submodule "egenie/sd_store"]
 	path = src/egenie/sd_store
-	url = https://mjewell@bitbucket.org/ecostanza/sd_store.git
-	branch = django1.11
+	url = https://mjewell@bitbucket.org/mjewell/sd_store.git
+	branch = master 
 [submodule "egenie/basicutils"]
 	path = src/egenie/basicutils
-	url = https://mjewell@bitbucket.org/ecostanza/basicutils.git
-	branch = django1.8
+	url = https://mjewell@bitbucket.org/mjewell/basicutils.git
+	branch = master 
