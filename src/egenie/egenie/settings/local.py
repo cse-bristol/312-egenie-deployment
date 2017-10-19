@@ -1,6 +1,5 @@
 
 from egenie.settings.base import *
-from egenie.settings.secure import *
 
 
 # Database
