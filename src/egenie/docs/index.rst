@@ -2,7 +2,7 @@
 Welcome to e-Genie's documentation!
 ==========================================
 
-This is currently a work in progress - watch this space!
+This is currently a work in progress - watch this space! Some sections are still to be completed.
 
 Contents:
 =========
