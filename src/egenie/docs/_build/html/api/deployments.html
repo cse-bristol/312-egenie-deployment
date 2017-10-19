@@ -86,26 +86,11 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">eGenie</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#carousel-screens">Carousel Screens</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#inner-screens">Inner Screens</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html#supporting-applications">Supporting Applications</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="sensors.html">sensors package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hubs.html">hubs package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annotations.html">annotations package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">deployments package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-deployments.admin">deployments.admin module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-deployments.apps">deployments.apps module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-deployments.forms">deployments.forms module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-deployments.models">deployments.models module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-deployments.urls">deployments.urls module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-deployments.views">deployments.views module</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#supporting-applications">Supporting Applications</a></li>
 </ul>
 
             
@@ -174,7 +159,7 @@
   <div class="section" id="module-deployments">
 <span id="deployments-package"></span><h1>deployments package<a class="headerlink" href="#module-deployments" title="Permalink to this headline">¶</a></h1>
 <p>Provides the ability to manage a <a class="reference internal" href="#deployments.models.Deployment" title="deployments.models.Deployment"><code class="xref py py-class docutils literal"><span class="pre">Deployment</span></code></a>. In essence, the physical building at which eGenie is deployed. This includes the physical address, a picture of the location, the hub which is present in the building to collect data, and additional data (such as energy costs and extra notes).</p>
-<p>A Deployment has one of four states: Incomplete (not yet ready to be put ‘live’); Not Running; Running; and Ended. Once a Deployment is ended, an ‘end date’ is stored in its <a class="reference internal" href="#deployments.models.DeploymentState" title="deployments.models.DeploymentState"><code class="xref py py-class docutils literal"><span class="pre">DeploymentState</span></code></a> so the correct readings are returned
+<p>A Deployment has one of four states: Incomplete (not yet ready to be put &#8216;live&#8217;); Not Running; Running; and Ended. Once a Deployment is ended, an &#8216;end date&#8217; is stored in its <a class="reference internal" href="#deployments.models.DeploymentState" title="deployments.models.DeploymentState"><code class="xref py py-class docutils literal"><span class="pre">DeploymentState</span></code></a> so the correct readings are returned
 at any given time. If a sensor is restarted, previous readings are cleared.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -518,13 +503,13 @@ permanent to this deployment via <a class="reference internal" href="sensors.htm
 <dl class="attribute">
 <dt id="deployments.models.Deployment.address_line_one">
 <code class="descname">address_line_one</code><a class="headerlink" href="#deployments.models.Deployment.address_line_one" title="Permalink to this definition">¶</a></dt>
-<dd><p>The first line of the deployment’s physical address.</p>
+<dd><p>The first line of the deployment&#8217;s physical address.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="deployments.models.Deployment.client_name">
 <code class="descname">client_name</code><a class="headerlink" href="#deployments.models.Deployment.client_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>The client name: might be a home owner’s name (Mrs Jones), or a company name (ABC Ltd), for example.</p>
+<dd><p>The client name: might be a home owner&#8217;s name (Mrs Jones), or a company name (ABC Ltd), for example.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -660,7 +645,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="attribute">
 <dt id="deployments.models.Deployment.post_code">
 <code class="descname">post_code</code><a class="headerlink" href="#deployments.models.Deployment.post_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>The deployment’s postcode.</p>
+<dd><p>The deployment&#8217;s postcode.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -694,10 +679,10 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dt id="deployments.models.Deployment.status">
 <code class="descname">status</code><a class="headerlink" href="#deployments.models.Deployment.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the current status of the deployment. Options are:
-(1, ‘Details Incomplete’)
-(2, ‘Deployment not running’)
-(3, ‘Deployment Running’)
-(4, ‘Deployment Ended’)</p>
+(1, &#8216;Details Incomplete&#8217;)
+(2, &#8216;Deployment not running&#8217;)
+(3, &#8216;Deployment Running&#8217;)
+(4, &#8216;Deployment Ended&#8217;)</p>
 </dd></dl>
 
 </dd></dl>

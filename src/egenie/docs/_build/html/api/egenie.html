@@ -87,25 +87,8 @@
               
             
             
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">eGenie</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">egenie package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="egenie.settings.html">egenie.settings package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.backends">egenie.backends module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.decorators">egenie.decorators module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.forms">egenie.forms module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.middleware">egenie.middleware module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.mixins">egenie.mixins module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.models">egenie.models module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-egenie.views">egenie.views module</a></li>
-</ul>
-</li>
-</ul>
-</li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">eGenie</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#carousel-screens">Carousel Screens</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#inner-screens">Inner Screens</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#supporting-applications">Supporting Applications</a></li>
@@ -220,7 +203,7 @@
 <dl class="function">
 <dt id="egenie.decorators.agree_required">
 <code class="descclassname">egenie.decorators.</code><code class="descname">agree_required</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/egenie/decorators.html#agree_required"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#egenie.decorators.agree_required" title="Permalink to this definition">¶</a></dt>
-<dd><p>Some screens require that the user agrees to the study’s conditions. If they have already agreed, they are forwarded on to the URL. Otherwise, they are redirected to an information page where they can choose to continue.</p>
+<dd><p>Some screens require that the user agrees to the study&#8217;s conditions. If they have already agreed, they are forwarded on to the URL. Otherwise, they are redirected to an information page where they can choose to continue.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">This is disabled at the moment (user=None rather than user=request.user).</p>
@@ -263,7 +246,7 @@ If the given user may log in, this method should return None.</p>
 
 <dl class="attribute">
 <dt id="egenie.forms.SimpleLoginForm.error_messages">
-<code class="descname">error_messages</code><em class="property"> = {'inactive': 'This account is inactive.', 'invalid_login': 'Please enter a correct %(username)s and password. Note that both fields may be case-sensitive.'}</em><a class="headerlink" href="#egenie.forms.SimpleLoginForm.error_messages" title="Permalink to this definition">¶</a></dt>
+<code class="descname">error_messages</code><em class="property"> = {'invalid_login': 'Please enter a correct %(username)s and password. Note that both fields may be case-sensitive.', 'inactive': 'This account is inactive.'}</em><a class="headerlink" href="#egenie.forms.SimpleLoginForm.error_messages" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -361,7 +344,7 @@ If the given user may log in, this method should return None.</p>
 <dt id="egenie.mixins.AccessMixin">
 <em class="property">class </em><code class="descclassname">egenie.mixins.</code><code class="descname">AccessMixin</code><a class="reference internal" href="../_modules/egenie/mixins.html#AccessMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#egenie.mixins.AccessMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>‘Abstract’ mixin that gives access mixins the same customizable
+<p>&#8216;Abstract&#8217; mixin that gives access mixins the same customizable
 functionality. This is copied from django-braces to get around 
 us not having a later 1.4.x version installed.</p>
 <dl class="method">
@@ -641,7 +624,7 @@ object the first time, the query is executed.</p>
 <dt id="egenie.models.SensorPosition">
 <em class="property">class </em><code class="descclassname">egenie.models.</code><code class="descname">SensorPosition</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/egenie/models.html#SensorPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#egenie.models.SensorPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
-<p>Specifies where a Sensor is positioned on the Deployment’s floor plan.</p>
+<p>Specifies where a Sensor is positioned on the Deployment&#8217;s floor plan.</p>
 <dl class="exception">
 <dt id="egenie.models.SensorPosition.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#egenie.models.SensorPosition.DoesNotExist" title="Permalink to this definition">¶</a></dt>
