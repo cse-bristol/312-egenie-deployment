@@ -255,3 +255,5 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(os.path.dirname(__file__), 'search', 'whoosh_index'),
     },
 }
+
+SITE_IPS = []

@@ -31,5 +31,3 @@ class Command(BaseCommand):
                                              email='anonymous@e-genie.co.uk',
                                              password='')
 
-        # Is this automatic?
-        UserProfile.objects.create(user=anonymous)
