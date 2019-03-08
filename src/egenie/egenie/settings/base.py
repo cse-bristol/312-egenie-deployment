@@ -69,7 +69,7 @@ INSTALLED_APPS = [
 ]
 
 
-# Spirit Applications
+# Spirit Applications
 INSTALLED_APPS.extend([
 
     'spirit.core',

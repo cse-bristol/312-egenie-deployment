@@ -8,6 +8,20 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 """
 
 import os
+# this is a bad thing
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+try:
+    import pkg_resources
+except:
+    print('something wrong with pkg_resources!!')
+    import sys
+    print("prefix:", sys.prefix)
+    print("exec prefix:", sys.exec_prefix)
+    print("path", sys.path)
+
 
 from django.core.wsgi import get_wsgi_application
 
