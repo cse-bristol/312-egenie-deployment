@@ -1,6 +1,6 @@
 [submodule "egenie/sd_store"]
 	path = src/egenie/sd_store
-	url = https://mjewell@bitbucket.org/mjewell/sd_store.git
+	url = git@github.com:cse-bristol/312-egenie-sd-store.git
 	branch = master 
 [submodule "egenie/basicutils"]
 	path = src/egenie/basicutils
