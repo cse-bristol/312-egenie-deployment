@@ -19,7 +19,7 @@ class SendMessageView(FormView):
         return reverse('fm:success')
 
     def form_valid(self, form):
-        # Save message
+        # Save message
         message = FMMessage(subject=form.cleaned_data['subject'],
                             message=form.cleaned_data['message'],
                             author=form.cleaned_data['author'])

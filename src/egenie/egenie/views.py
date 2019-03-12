@@ -112,7 +112,7 @@ class RotatingView(RestrictedMixin, PlinthMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        # All rotating views use a logged out state
+        # All rotating views use a logged out state
         logout(request)
         context = self.get_context_data(**kwargs)
         response = self.render_to_response(context)
@@ -122,14 +122,14 @@ class RotatingView(RestrictedMixin, PlinthMixin, TemplateView):
         context = super(RotatingView, self).get_context_data(**kwargs)
 
         if context['onsite']:
-            # If we're onsite, show all 4 options.
+            # If we're onsite, show all 4 options.
             # EC: trying to get rid of the annotation page
             #SCREEN_ORDER = ['alwayson', 'temperature', 'annotation', 'pinboard:public']
             SCREEN_ORDER = ['pinboard:public']
             # SCREEN_ORDER = ['alwayson', 'temperature',
             # 'pinboard:public', 'annotation']
         else:
-            # Otherwise skip the pinboard screen
+            # Otherwise skip the pinboard screen
             # EC: trying to get rid of the annotation page
             # SCREEN_ORDER = ['alwayson', 'temperature', 'annotation']
             # SCREEN_ORDER = ['pinboard:public']

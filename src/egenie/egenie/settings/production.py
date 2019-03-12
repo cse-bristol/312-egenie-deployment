@@ -7,9 +7,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ['MYSQL_DATABASE'],
-        
+        'USER': 'egenie',
+        'PASSWORD': 'egenie',
         'OPTIONS': {
-            'unix_socket': '/run/mysql/mysqld.sock'
+            'unix_socket': '/run/mysqld/mysqld.sock'
         }
     }
 }

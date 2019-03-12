@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
         (width, height) = image.size
 
-        # Convert to multiple of tile_width/tile_height
+        # Convert to multiple of tile_width/tile_height
         padded_w = int(math.ceil(float(width) / tile_width) * tile_width)
         padded_h = int(math.ceil(float(height) / tile_height) * tile_height)
         padded_im = Image.new('RGBA', (padded_w, padded_h), (255, 255, 255, 0))

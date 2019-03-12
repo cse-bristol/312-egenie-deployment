@@ -28,7 +28,7 @@ class SimpleBackend(object):
         """ Authenticate given a username and password. Users are deemed to be authenticated if either a) they are an administrator and have provided the correct password, or b) they are not an administrator. """
         try:
             user = User.objects.get(username=username)
-            # Admins can only log in with a password
+            # Admins can only log in with a password
             if user and (user.is_superuser or user.is_staff):
                 pwd_valid = user.check_password(password)
                 if not pwd_valid:

@@ -16,7 +16,7 @@ urlpatterns = [
         views.delete_photo, name='delete_photo'),
     url(r'^post$', views.post, name='post'),
 
-    # Spirit overrides
+    # Spirit overrides
     url(r'^topic/publish/$', views.topic_publish,
         name='topic_publish'),
     url(r'^topic/publish/(?P<category_id>\d+)/$',

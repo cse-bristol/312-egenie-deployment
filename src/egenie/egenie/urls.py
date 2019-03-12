@@ -19,7 +19,7 @@ urlpatterns = [
 
 
 urlpatterns.extend([
-    # Carousel Views
+    # Carousel Views
     url(r'^temperature/', include('temperature.urls'), name='temperature'),
     url(r'^alwayson/', include('alwayson.urls'), name='alwayson'),
     url(r'^graphs/', include('graphs.urls'), name='graphs'),

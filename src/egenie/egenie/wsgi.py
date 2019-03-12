@@ -8,10 +8,6 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 """
 
 import os
-# this is a bad thing
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 try:
     import pkg_resources

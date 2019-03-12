@@ -77,7 +77,7 @@ class Deployment(TimeStampedModel):
         except DeploymentState.DoesNotExist:
             raise ValueError("Deployment isn't running so can't be ended")
 
-        # # Free up hub and sensors
+        # # Free up hub and sensors
         sensor_deployment_details = SensorDeploymentDetails.objects.filter(
             deployment=self)
         for sensor_deployment_record in sensor_deployment_details:
@@ -103,7 +103,7 @@ class Deployment(TimeStampedModel):
         )
         deployment_state.save()
 
-        # Clear out any existing readings
+        # Clear out any existing readings
         sensor_deployment_details = SensorDeploymentDetails.objects.filter(
             deployment=self)
         for sensor_deployment_record in sensor_deployment_details:
