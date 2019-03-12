@@ -1,0 +1,5 @@
+{
+  egenie = {...} : {
+    deployment.targetEnv = "virtualbox";
+  };
+}

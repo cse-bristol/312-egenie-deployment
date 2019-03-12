@@ -1,0 +1,75 @@
+#+TITLE: CSE Egenie Deployment
+
+This respository contains a slightly modified version of egenie, originally cloned from
+
+https://bitbucket.org/mikejewell/egenie/
+
+egenie is an application which
+
+- records temperature & energy related data sent to it over a network from some sensing devices
+- displays records of that data on the screen
+
+The whole system consists of:
+
+1. A django python server-side web application which does most of the work
+2. UWSGI as a CGI containery thing for this
+3. nginx as the web server, proxying to nginx
+4. Mysql as a database
+
+* Changes from upstream
+
+- I removed a load of non-ascii character from source, as these upset python in some locales
+- I modified the settings module to connect over unix domain socket
+- I used manage.py to regenerate some 'migrations'. Don't know what this actually means, but practically:
+
+  - I deleted every directory called 'migrations' with
+    find . -type d -iname migrations -exec rm -rf '{}' ';'
+
+  - I dropped into a nix-shell with the dependencies in it with
+    nix-shell ./nix/requirements.nix
+
+  - From in there I did
+    python ./src/egenie/manage.py makemigrations
+
+* Nix deployment
+
+I (Tom) don't know much django but I have bodged together a set of nix derivations to build the system.
+These are in the ./nix/ directory.
+
+The useful bits are:
+
+- ./nix/egenie.nix
+
+  This is the derivation for a machine which runs egenie with all the dependencies etc
+
+  Weird bits in here are:
+
+  - using an override to install our python environment into uwsgi.
+    Using uwsgi's pythonpackages argument didn't work for this
+  - the app-start unit is a bit dodge; it might not be the right thing to do to run this every boot.
+
+- ./nix/requirements.nix
+
+  This is the derivation for a python environment containing all the python deps.
+  It was generated using pypi2nix on the requirements.txt file under ./src/egenie
+
+  The invocation used should be written into the file as a comment.
+
+  I transformed it a little bit to get ./nix/packages.nix, which is what's used in the machine definition.
+  
+  The only real bit of hand-editing was adding LC_ALL to one of the packages as it is in utf-8 somewhere.
+
+* Post deployment admin steps
+
+The django management script is on the path as ~egenie-manage~ - to get the thing to work needs a bit of basic database content.
+
+Some commands are:
+
+#+BEGIN_SRC sh
+egenie-manage create_anonymous_user
+egenie-manage createsuperuser
+egenie-manage create_deployment_models
+egenie-manage create_spirit_categories
+#+END_SRC
+
+but honestly not sure what I'm doing here.
