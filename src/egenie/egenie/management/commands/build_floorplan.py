@@ -32,11 +32,11 @@ class Command(BaseCommand):
     help = 'Build floorplans for leaflet'
 
     def add_arguments(self, parser):
-        parser.add_argument('level_1', type=str, nargs=1)
-        parser.add_argument('level_2', type=str, nargs=1)
-        parser.add_argument('level_3', type=str, nargs=1)
-        parser.add_argument('level_4', type=str, nargs=1)
-        parser.add_argument('level_5', type=str, nargs=1)
+        parser.add_argument('level_1', type=str)
+        parser.add_argument('level_2', type=str)
+        parser.add_argument('level_3', type=str)
+        parser.add_argument('level_4', type=str)
+        parser.add_argument('level_5', type=str)
 
     def slice_image(self, image, path):
         tile_width = 256
@@ -68,6 +68,8 @@ class Command(BaseCommand):
                   options['level_3'] or options['level_1'],
                   options['level_4'] or options['level_1'],
                   options['level_5'] or options['level_1']]
+
+        print(IMAGES)
         
         # IMAGES = ['floorplan_nocolour.png','floorplan_nocolour.png','floorplan_detailed.png','floorplan_detailed.png','floorplan_detailed.png']
         OUTPUT_PATH = '/static/egenie/imgs/tiles/'
