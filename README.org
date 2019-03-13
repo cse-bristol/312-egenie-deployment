@@ -86,3 +86,28 @@ A pair colour needs adding via the django admin page to make lines appear on gra
 Anything with one of these will appear on the graph with an on/off button.
 
 The add note button does not work at the moment because of the internal/external IP thingy.
+
+* Setting up some sensors
+The pi we tried first has username/password pi/raspberry
+The wireless is configured with wpa_supplicant via /etc/wpa_supplicant/wpa_supplicant.conf
+We used ethernet because all the dongles have gongle
+
+The reporting program is in the ctech-hub repository
+It runs as a systemd service called ctech.service
+
+We edited it a little in modules/serial_processor.js to have a url for our install
+Then it worked - need to add sensors to the django thing so it knows where to go.
+
+Temp + humidity sensor has a name on it in a pink label
+
+Go to http://egenie.r.cse.org.uk/admin/sd_store/sensor/
+
+Sensor ID number is the pink label
+These sensors always have two channels in them which are called TEMP and RHUM
+
+Metering Source is display name really
+
+Sensors should be put in deployments
+
+Sensors need map coordinate to not break
+* TODO Making the floor plan

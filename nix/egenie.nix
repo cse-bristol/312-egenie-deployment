@@ -17,6 +17,7 @@ let
      export MYSQL_DATABASE=egenie
      ${python-with-deps}/bin/python ${egenie-src}/manage.py "$@"
      '');
+  floorplan = ./floorplan.png;
 in {
   
   time.timeZone = "Europe/London";
@@ -82,6 +83,7 @@ in {
       egenie-manage collectstatic --noinput
       egenie-manage migrate --run-syncdb --noinput || true
       egenie-manage migrate --noinput
+      egenie-manage build_floorplan ${floorplan} ${floorplan} ${floorplan} ${floorplan} ${floorplan}
 
       # TODO ALTER TABLE sd_store_sensorreading ADD KEY ix1(sensor_id, channel_id, timestamp, id, value);
     '';
