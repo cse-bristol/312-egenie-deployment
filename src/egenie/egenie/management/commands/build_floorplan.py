@@ -46,33 +46,36 @@ class Command(BaseCommand):
         for x_i, x in enumerate(range(0, padded_w, tile_width)):
             for y_i, y in enumerate(range(0, padded_h, tile_height)):
 
-                print x_i, y_i, x, y
+                print(x_i, y_i, x, y)
                 box = (x, y, x + tile_width - 1, y + tile_height - 1)
-                print box
+                print(box)
                 cropped = padded_im.crop(box)
                 cropped.save(path + "map_" + str(x_i) +
                              "_" + str(y_i) + ".png")
 
-    def handle(self, *args, **options):
-        IMAGE_PATH = 'ctech/static/ctech/imgs/updated_floorplan/'
+    def handle(self, *args, level_1=None, level_2=None, level_3=None, level_4=None, level_5=None):
         LEVELS = [14, 15, 16, 17, 18]
         SCALES = [16, 8, 4, 2, 1]
-        IMAGES = ['floorplan_simplified.png', 'floorplan_simplified.png',
-                  'floorplan_detailed.png', 'floorplan_detailed.png', 'floorplan_detailed.png']
+        IMAGES = [level_1,
+                  level_2 or level_1,
+                  level_3 or level_1,
+                  level_4 or level_1,
+                  level_5 or level_1]
+        
         # IMAGES = ['floorplan_nocolour.png','floorplan_nocolour.png','floorplan_detailed.png','floorplan_detailed.png','floorplan_detailed.png']
-        OUTPUT_PATH = 'ctech/static/ctech/imgs/tiles/'
+        OUTPUT_PATH = '/static/egenie/imgs/tiles/'
         # Start off by working out the size of the largest image
-        im = Image.open(IMAGE_PATH + IMAGES[0])
+        im = Image.open(IMAGES[0])
         (width, height) = im.size
 
         for i, level in enumerate(LEVELS):
-            print level, IMAGES[i]
+            print(level, IMAGES[i])
             path = OUTPUT_PATH + str(level) + "/"
             try:
                 os.makedirs(path)
             except:
-                print path + " exists"
-            im = Image.open(IMAGE_PATH + IMAGES[i])
+                print(path + " exists")
+            im = Image.open(IMAGES[i])
             im.thumbnail(
                 (width / SCALES[i], height / SCALES[i]), Image.ANTIALIAS)
             im.save(path + "full.png")
