@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 from django.template.loader import get_template
 from django.template import Context
+from django.conf import settings
 import datetime
 
 
@@ -122,20 +123,9 @@ class RotatingView(RestrictedMixin, PlinthMixin, TemplateView):
         context = super(RotatingView, self).get_context_data(**kwargs)
 
         if context['onsite']:
-            # If we're onsite, show all 4 options.
-            # EC: trying to get rid of the annotation page
-            #SCREEN_ORDER = ['alwayson', 'temperature', 'annotation', 'pinboard:public']
-            SCREEN_ORDER = ['pinboard:public']
-            # SCREEN_ORDER = ['alwayson', 'temperature',
-            # 'pinboard:public', 'annotation']
+            SCREEN_ORDER = settings.ONSITE_SCREEN_ORDER
         else:
-            # Otherwise skip the pinboard screen
-            # EC: trying to get rid of the annotation page
-            # SCREEN_ORDER = ['alwayson', 'temperature', 'annotation']
-            # SCREEN_ORDER = ['pinboard:public']
-
-            SCREEN_ORDER = ['pinboard:public']
-            # SCREEN_ORDER = ['alwayson', 'temperature', 'annotation']
+            SCREEN_ORDER = settings.OFFSITE_SCREEN_ORDER
 
         if context['screen'] in SCREEN_ORDER:
             i = SCREEN_ORDER.index(context['screen'])
