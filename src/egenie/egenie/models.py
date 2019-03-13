@@ -38,9 +38,9 @@ class Plinth(models.Model):
     deployment = models.ForeignKey(Deployment, blank=True, null=True)
     """ The Deployment associated with this Plint. """
 
-    x = models.IntegerField()
+    x = models.IntegerField(default = 0)
     """ The x co-ordinate of the Plinth on the floorplan in pixels. """
-    y = models.IntegerField()
+    y = models.IntegerField(default = 0)
     """ The y co-ordinate of the Plinth on the floorplan in pixels. """
 
     def __unicode__(self):
@@ -51,9 +51,9 @@ class SensorPosition(models.Model):
     """ Specifies where a Sensor is positioned on the Deployment's floor plan. """
     sensor = models.OneToOneField(Sensor, related_name='position')
     """ The Sensor this position refers to. """
-    x = models.IntegerField()
+    x = models.IntegerField(default = 0)
     """ The x pixel coordinate of the Sensor on the floor plan. """
-    y = models.IntegerField()
+    y = models.IntegerField(default = 0)
     """ The y pixel coordinate of the Sensor on the floor plan. """
 
     def __unicode__(self):
