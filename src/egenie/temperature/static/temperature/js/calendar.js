@@ -16,7 +16,7 @@ function redraw_calendar(sensor_id, end) {
         sensor: sensor_id,
         user: false, // this means "load by user"
         data: true,
-        channels: ['temperature',],
+        channels: ['TEMP',],
         sampling_interval: 60 * 60
     };
 
