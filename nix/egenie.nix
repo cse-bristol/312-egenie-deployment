@@ -76,9 +76,12 @@ in {
   systemd.services.app-start = {
     path = [egenie-management-script];
     script = ''
+      rm -rf /static
       egenie-manage collectstatic --noinput
       egenie-manage migrate --run-syncdb --noinput || true
       egenie-manage migrate --noinput
+
+      # TODO ALTER TABLE sd_store_sensorreading ADD KEY ix1(sensor_id, channel_id, timestamp, id, value);
     '';
     requires = ["mysql.service"];
     before = ["uwsgi.service"];
