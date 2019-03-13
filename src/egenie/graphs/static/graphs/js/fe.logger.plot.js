@@ -127,7 +127,7 @@ $(function () {
                         found = true;
                     }
                 });
-                dataset.visible = found;
+                dataset.visible = true;
             });
         };
 
