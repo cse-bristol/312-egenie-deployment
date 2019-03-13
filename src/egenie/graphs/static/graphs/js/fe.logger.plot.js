@@ -499,13 +499,15 @@ $(function () {
                     .y0(function (d) { return h - ySc(d.value); })
                     .y1(function () { return h; });
 
-                // append data plot/path to svg
-                var line = chart.append("svg:path")
-                    .style("fill", "none")
-                    .style("stroke-width", 2)
-                    .style("stroke", data_set.colour)
-                    .attr("d", line(data_set.data));
+              // append data plot/path to svg
+              var line = chart.append("svg:path")
+                              .style("fill", "none")
+                              .style("stroke-width", 2)
+                              .style("stroke", data_set.colour)
+                              .attr("d", line(data_set.data))
+                              .style("display", "block");
 
+              
               /* if(!data_set.visible) {
                *     line.style("display", "none");
                * }
