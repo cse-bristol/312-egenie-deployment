@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 # This file is part of sd_store
 #
 # sd_store is free software: you can redistribute it and/or modify
@@ -39,7 +37,7 @@ class Command(BaseCommand):
         ch2 = Channel.objects.get(name='electricity')
 
         # generate some random-ish data
-        end = datetime(2017, 10, 9, 14, 00, 00)
+        end = datetime.now()
         start = end - timedelta(days=14)
         for i in range(14 * 24 * 30):
             msg = "%4d out of %d\r" % (i, 14 * 24 * 30)
