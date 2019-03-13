@@ -506,10 +506,10 @@ $(function () {
                     .style("stroke", data_set.colour)
                     .attr("d", line(data_set.data));
 
-                if(!data_set.visible) {
-                    line.style("display", "none");
-                }
-
+              /* if(!data_set.visible) {
+               *     line.style("display", "none");
+               * }
+               */
             });
     
         };
