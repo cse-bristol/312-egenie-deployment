@@ -15,6 +15,7 @@
 
 from random import random
 from datetime import datetime, timedelta
+import pytz
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
@@ -37,7 +38,7 @@ class Command(BaseCommand):
         ch2 = Channel.objects.get(name='electricity')
 
         # generate some random-ish data
-        end = datetime.now()
+        end = datetime.now(tz=pytz.utc)
         start = end - timedelta(days=14)
         for i in range(14 * 24 * 30):
             msg = "%4d out of %d\r" % (i, 14 * 24 * 30)

@@ -18,6 +18,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from sd_store.models import *
 from datetime import datetime, timedelta
+import pytz
 import json
 
 from django.contrib.auth.models import User
@@ -31,7 +32,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         user = User.objects.get(username='cdec')
-        now = datetime.now()
+        now = datetime.now(tz=pytz.utc)
         with open('/srv/django-projects/catapult/aggregates.json', 'r') as fp:
             content = fp.read()
             obj = json.loads(content)

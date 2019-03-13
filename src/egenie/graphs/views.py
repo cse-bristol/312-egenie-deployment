@@ -19,6 +19,7 @@ from sd_store.models import Sensor, Channel, SensorReading
 from graphs.models import PairColour
 from egenie.views import RotatingView
 import datetime
+import pytz
 
 from django.core.urlresolvers import reverse
 from deployments.models import Deployment, DeploymentState
@@ -48,7 +49,7 @@ class AnnotationView(RotatingView):
         context = super(AnnotationView, self).get_context_data(
             screen='annotation', **kwargs)
         deployment = context['plinth'].deployment
-        dateTo = datetime.datetime.now()  # - datetime.timedelta(days=21)
+        dateTo = datetime.datetime.now(tz=pytz.utc)  # - datetime.timedelta(days=21)
         dateFrom = dateTo.replace(hour=0, minute=0, second=0, microsecond=0)
         context['dateTo'] = dateTo.strftime("%Y-%m-%d %H:%M:%S")
         context['dateFrom'] = dateFrom.strftime("%Y-%m-%d %H:%M:%S")

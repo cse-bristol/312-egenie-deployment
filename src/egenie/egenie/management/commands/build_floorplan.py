@@ -17,7 +17,6 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from sd_store.models import *
-from datetime import datetime, timedelta
 import json
 
 from django.contrib.auth.models import User
