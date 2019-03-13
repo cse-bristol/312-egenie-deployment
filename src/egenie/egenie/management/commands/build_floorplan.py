@@ -63,11 +63,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         LEVELS = [14, 15, 16, 17, 18]
         SCALES = [16, 8, 4, 2, 1]
-        IMAGES = [args[0],
-                  args[1] or args[0],
-                  args[2] or args[0],
-                  args[3] or args[0],
-                  args[4] or args[0]]
+        IMAGES = [options['level_1'],
+                  options['level_2'] or options['level_1'],
+                  options['level_3'] or options['level_1'],
+                  options['level_4'] or options['level_1'],
+                  options['level_5'] or options['level_1']]
         
         # IMAGES = ['floorplan_nocolour.png','floorplan_nocolour.png','floorplan_detailed.png','floorplan_detailed.png','floorplan_detailed.png']
         OUTPUT_PATH = '/static/egenie/imgs/tiles/'
