@@ -73,3 +73,16 @@ egenie-manage create_spirit_categories
 #+END_SRC
 
 but honestly not sure what I'm doing here.
+
+The default sensors created by create_deployment_models are only visible to the admin user, but the sd_store routes are given the anonymous user.
+
+For sensors to be visible to the web app they need to be under the anonymous user
+
+This is configurable in the django admin page at /admin
+
+There is a populate_data manage subcommand to put some bogus data into the database
+
+A pair colour needs adding via the django admin page to make lines appear on graph.
+Anything with one of these will appear on the graph with an on/off button.
+
+The add note button does not work at the moment because of the internal/external IP thingy.
