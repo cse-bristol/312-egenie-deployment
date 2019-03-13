@@ -18,6 +18,8 @@ let
      ${python-with-deps}/bin/python ${egenie-src}/manage.py "$@"
      '');
 in {
+  
+  time.timeZone = "Europe/London";
   networking.firewall.allowedTCPPorts = [80];
 
   services.nginx = {
