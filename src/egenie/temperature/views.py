@@ -14,7 +14,7 @@ class TemperatureView(RotatingView):
             screen='temperature', **kwargs)
 
         deployment = context['plinth'].deployment
-        temp_channel = Channel.objects.get(name='temperature')
+        temp_channel = Channel.objects.get(name='TEMP')
 
         # EC: select all sensors in the deployment (this assumes they all have
         # temperature)
