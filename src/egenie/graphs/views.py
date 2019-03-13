@@ -111,8 +111,6 @@ def get_devices(request, pk):
         sensor = sensorpair.sensor
         channel = sensorpair.channel
 
-        if channel.name in ['TEMP', 'TMPA']:
-            continue
         sensor_obj = {}
         sensor_obj['name'] = sensor.name
         # sensor_obj['location'] = sensor.deployment_details.filter(deployment__pk=pk)[0].location
