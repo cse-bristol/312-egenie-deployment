@@ -19,7 +19,7 @@ $( document ).ready(function() {
         'draw_controls': false,
     });
 
-    // fe.logger.plot.load_data(rebuild_view);
+    fe.logger.plot.load_data(rebuild_view);
 
     filterSelectedDate = moment($("#date_to_server").val()).toDate();
     filterSelectedDate.setHours(0,0,0,0);
