@@ -31,6 +31,13 @@ class Command(BaseCommand):
         """
     help = 'Build floorplans for leaflet'
 
+    def add_arguments(self, parser):
+        parser.add_argument('level_1', type=str, nargs=1)
+        parser.add_argument('level_2', type=str, nargs=1)
+        parser.add_argument('level_3', type=str, nargs=1)
+        parser.add_argument('level_4', type=str, nargs=1)
+        parser.add_argument('level_5', type=str, nargs=1)
+
     def slice_image(self, image, path):
         tile_width = 256
         tile_height = 256
