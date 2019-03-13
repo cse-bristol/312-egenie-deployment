@@ -60,14 +60,14 @@ class Command(BaseCommand):
                 cropped.save(path + "map_" + str(x_i) +
                              "_" + str(y_i) + ".png")
 
-    def handle(self, *args, level_1=None, level_2=None, level_3=None, level_4=None, level_5=None):
+    def handle(self, *args, **options):
         LEVELS = [14, 15, 16, 17, 18]
         SCALES = [16, 8, 4, 2, 1]
-        IMAGES = [level_1,
-                  level_2 or level_1,
-                  level_3 or level_1,
-                  level_4 or level_1,
-                  level_5 or level_1]
+        IMAGES = [args[0],
+                  args[1] or args[0],
+                  args[2] or args[0],
+                  args[3] or args[0],
+                  args[4] or args[0]]
         
         # IMAGES = ['floorplan_nocolour.png','floorplan_nocolour.png','floorplan_detailed.png','floorplan_detailed.png','floorplan_detailed.png']
         OUTPUT_PATH = '/static/egenie/imgs/tiles/'
