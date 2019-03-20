@@ -32,7 +32,6 @@ The whole system consists of:
     python ./src/egenie/manage.py makemigrations
 
 * Nix deployment
-
 I (Tom) don't know much django but I have bodged together a set of nix derivations to build the system.
 These are in the ./nix/ directory.
 
@@ -63,7 +62,7 @@ The useful bits are:
 
 The django management script is on the path as ~egenie-manage~ - to get the thing to work needs a bit of basic database content.
 
-Some commands are:
+A set of database population commands are:
 
 #+BEGIN_SRC sh
 egenie-manage create_anonymous_user
@@ -72,42 +71,24 @@ egenie-manage create_deployment_models
 egenie-manage create_spirit_categories
 #+END_SRC
 
-but honestly not sure what I'm doing here.
+The default sensors created by create_deployment_models are only visible to the admin user, but the sd_store routes are given the anonymous user, so any sensors you make need to have user anonymous to appear on the web page as is.
 
-The default sensors created by create_deployment_models are only visible to the admin user, but the sd_store routes are given the anonymous user.
+This is configurable in the django admin page at /admin, along with a bunch of other stuff.
+You can login to the django admin page using the credentials you gave running ~createsuperuser~.
 
-For sensors to be visible to the web app they need to be under the anonymous user
-
-This is configurable in the django admin page at /admin
-
-There is a populate_data manage subcommand to put some bogus data into the database
-
-A pair colour needs adding via the django admin page to make lines appear on graph.
-Anything with one of these will appear on the graph with an on/off button.
-
-The add note button does not work at the moment because of the internal/external IP thingy.
+There is a populate_data manage subcommand to put some bogus data into the database.
 
 * Setting up some sensors
-The pi we tried first has username/password pi/raspberry
-The wireless is configured with wpa_supplicant via /etc/wpa_supplicant/wpa_supplicant.conf
-We used ethernet because all the dongles have gongle
+The reporting program is in the [[https://github.com/cse-bristol/312-ctech-hub][ctech-hub]] repository, which see for details on how to set it up.
 
-The reporting program is in the ctech-hub repository
-It runs as a systemd service called ctech.service
+Once it is working, any sensor readings it's started sending should cause new sensors & channels to go into the database automatically.
 
-We edited it a little in modules/serial_processor.js to have a url for our install
-Then it worked - need to add sensors to the django thing so it knows where to go.
+For these to appear in the user interface some further config is needed via the /admin url.
 
-Temp + humidity sensor has a name on it in a pink label
-
-Go to http://egenie.r.cse.org.uk/admin/sd_store/sensor/
-
-Sensor ID number is the pink label
-These sensors always have two channels in them which are called TEMP and RHUM
-
-Metering Source is display name really
-
-Sensors should be put in deployments
-
-Sensors need map coordinate to not break
-* TODO Making the floor plan
+- Sensors need adding to a deployment
+- Sensors need a map coordinate added to them
+- If you want sensors to appear on the graph they need a PairColor defined in the db
+  Anything with one of these will appear on the graph with an on/off button.
+* Making the floor plan
+The floorplan is cut up into parts by a subcommand of the manage script.
+If you are deploying with nix this will happen automatically from the file ./nix/floorplan.png
