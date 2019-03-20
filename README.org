@@ -75,11 +75,13 @@ The default sensors created by create_deployment_models are only visible to the 
 
 This is configurable in the django admin page at /admin, along with a bunch of other stuff.
 You can login to the django admin page using the credentials you gave running ~createsuperuser~.
+Worth knowing is that if you look at the normal front page in the same browser session your session cookie will be mangled and you'll get logged out, so you may want to go to the admin page (or the front page) in an incognito window.
 
 There is a populate_data manage subcommand to put some bogus data into the database.
-
 * Setting up some sensors
 The reporting program is in the [[https://github.com/cse-bristol/312-ctech-hub][ctech-hub]] repository, which see for details on how to set it up.
+This will need a /raw data key/ to be able to transmit any data. 
+You can create or view these in the normal django admin interface - they are just a secret string used to prevent any old thing getting sent to the data input API.
 
 Once it is working, any sensor readings it's started sending should cause new sensors & channels to go into the database automatically.
 
